@@ -71,6 +71,17 @@ xychart-beta
 - Keyword search only sees visible errors: 23 of the 30 anomalous traces never log an ERROR
 - Run records: PoC 1 git `b43f546`, image `b43f546`, Llama 2 commit `8efe6c9`; PoC 2 git `6326680`; data hash `7f7c7aa4` for both
 
+**LLM variants** (same 80 traces, all 80 calls in parallel, 333K tokens per minute per deployment, git `bdcf254`)
+
+| Model, reasoning | F1 | Wrong verdicts | Output tokens | Time | Cost per 1,000 traces |
+|---|---|---|---|---|---|
+| gpt-5.6-luna, default | 1.00 | 0 | 6,086 | 28 s (4 threads) | $0.52 |
+| gpt-5.6-luna, none | 0.98 | 1 missed silent skip | 3,361 | 7 s | $0.47 |
+| gpt-6-luna, default | 1.00 | 0 | 7,291 | 8 s | $0.28 |
+| gpt-6-luna, none | 0.98 | 1 false alarm | 3,441 | 7 s | $0.25 |
+
+- gpt-6-luna is about half the price per token; input is about 80% of the cost, so reasoning `none` saves little and costs accuracy
+
 ## Azure ML vs the two PoCs
 
 **Azure ML (GPU compute instance today)**
