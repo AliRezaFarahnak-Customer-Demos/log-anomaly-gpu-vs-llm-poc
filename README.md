@@ -1,45 +1,44 @@
-# Log anomaly detection: fine-tuned GPU model vs LLM
+# Find broken business flows in your logs. No GPU. No training.
 
-Can one LLM call per trace replace GPU fine-tuning to detect and explain anomalies in production logs?
-Rehearsed on synthetic data: 10 days of logs, 4 business flows, 2 incidents, 80 labelled traces.
+## 🎯 30 of 30 problems caught · 0 false alarms · every finding explained
 
-## Answer
+One LLM call per trace beat a fine-tuned 7B model on our rehearsal data.
 
-- **Detection: the LLM wins.** F1 1.00 vs 0.94, explains every verdict, no training, cheaper below about 190,000 traces a day
-- **Training: serverless GPU works.** Llama 2 7B fine-tuned on a serverless A100 in 8 minutes, every run versioned
-- **Still to prove on real logs:** accuracy, early warning before incidents, real volume
+---
 
-## How it works
+## 😟 The problem
 
-```mermaid
-flowchart LR
-    logs["App logs"] --> drain["Drain templates<br/>per correlation id"]
-    drain --> p1["Fine-tune Llama 2 7B<br/>serverless A100 job"]
-    drain --> p2["gpt-6-luna<br/>structured output"]
-    p1 --> s1["Surprise score per line"]
-    p2 --> s2["Verdict + explanation"]
-    s1 --> eval["Same 80 labelled traces"]
-    s2 --> eval
-```
+### Keyword search misses 77% of problems
 
-## Results
+- 23 of 30 broken flows never log an ERROR: a step is skipped, steps run out of order, the flow stops early, or a step repeats
+
+## ✅ The result
 
 ```mermaid
 xychart-beta
-    title "F1 on 80 labelled traces"
-    x-axis ["Keyword grep", "Fine-tuned GPU", "LLM"]
-    y-axis "F1" 0 --> 1
-    bar [0.38, 0.94, 1.0]
+    title "Problems caught (of 30)"
+    x-axis ["Keyword search", "Fine-tuned model on GPU", "LLM"]
+    y-axis "Problems caught" 0 --> 30
+    bar [7, 30, 30]
 ```
 
-| | Keyword grep | Fine-tuned Llama 2 7B | gpt-6-luna |
+| | Keyword search | Fine-tuned model on GPU | LLM |
 |---|---|---|---|
-| Anomalies caught (of 30) | 7 | 30 | 30 |
-| False alarms (of 50 normal) | 0 | 4 | 0 |
-| Explains the verdict | no | no | yes |
-| Training | none | 8 min here, hours on real data | none |
+| Problems caught (of 30) | 7 | 30 | **30** |
+| False alarms (of 50 normal) | 0 | 4 | **0** |
+| Explains why | no | no | **yes** |
+| Training needed | none | GPU hours | **none** |
 
-## Cost of real-time detection
+### 💬 Every finding comes with a reason
+
+> "The mortgage application flow first fails at a6, credit assessment, which is missing before a7 on line 6."
+
+## 💰 Cheap
+
+### $0.32 per 1,000 traces, about $0.09 with prompt caching
+
+- **Prompt caching:** 94% of every call is the same instructions and flow descriptions. Azure keeps that identical start of the prompt and bills it at a tenth of the price ([how it works](https://learn.microsoft.com/azure/foundry/openai/how-to/prompt-caching))
+- **Always-on GPU:** about $1,800 a month. **LLM at 10,000 traces a day:** about $100 a month ([Azure OpenAI prices](https://azure.microsoft.com/pricing/details/azure-openai/))
 
 ```mermaid
 xychart-beta
@@ -50,65 +49,86 @@ xychart-beta
     line [1840, 1840, 1840, 1840, 1840]
 ```
 
-- LLM: $0.32 per 1,000 traces (about 2,200 tokens each); prompt caching cuts this by about 70%
-- GPU: an A100 that stays on for scoring ($2.48 per hour) plus one retraining run a month
-- One 24-hour fine-tuning run: $59 on Container Apps, $115 on Azure ML, about $23 on Azure ML spot (Azure list prices)
+## ⚡ Fast
 
-## Option 1: Foundry LLM (recommended for detection)
+### 80 traces checked in 8 seconds
+
+- 20 calls in parallel, nothing to start up
+
+## How it works
+
+```mermaid
+flowchart LR
+    logs["App logs"] --> traces["Traces<br/>per correlation id"]
+    traces --> gpu["Fine-tuned Llama 2 7B<br/>serverless A100"]
+    traces --> llm["gpt-6-luna<br/>structured output"]
+    gpu --> s1["Surprise score"]
+    llm --> s2["Verdict + reason"]
+```
+
+- Structured outputs with fixed answer choices keep every answer valid ([docs](https://learn.microsoft.com/azure/foundry/openai/how-to/structured-outputs))
+
+## 🥇 Option 1: LLM on Foundry (recommended)
 
 ### ✅ Pros
 - No training, no GPU, no model to own
-- Explains every verdict: flow, broken step, line
-- Change behaviour by editing the flow description
+- Explains every finding
+- Change it by editing the flow description
 - Cheapest below about 190,000 traces a day
 
 ### ❌ Cons
-- Pay per token: cost grows with traffic
+- Cost grows with traffic
 - Only as good as the flow description
-- Hosted model: pin the version and rerun a labelled regression set on every change
+- Pin the model version and re-test on every change
 
-## Option 2: Azure ML serverless GPU (if fine-tuning is needed)
-
-### ✅ Pros
-- Long and multi-node training, spot A100 at about $0.94 per hour
-- MLflow tracking and model registry built in
-- Managed network and managed identity
-
-### ❌ Cons
-- Needs A100 VM quota (0 in this test subscription, so not tested here)
-- A model to retrain and re-threshold whenever the logs change
-- No explanation of why a trace is flagged
-
-## Option 3: Container Apps serverless GPU (tested)
+## 🥈 Option 2: Fine-tune on Azure ML serverless GPU
 
 ### ✅ Pros
-- A100 billed per second, nothing to pay when idle
-- Own GPU quota: ran where A100 VM quota is 0
-- One image runs download, training and scoring
+- Long and multi-node training, spot A100 about $0.94 per hour
+- Experiment tracking and model registry built in
+- Managed network and managed identity ([docs](https://learn.microsoft.com/azure/machine-learning/how-to-use-serverless-compute))
 
 ### ❌ Cons
-- One GPU per replica, no multi-node training
-- Long runs need a file share for checkpoints, which needs storage keys (blocked by policy here)
+- Needs A100 quota (0 in our test subscription, so not tested)
+- Retrain and re-threshold whenever the logs change
+- Flags problems without saying why
+
+## 🥉 Option 3: Fine-tune on Container Apps serverless GPU (tested)
+
+### ✅ Pros
+- A100 billed per second, $0 when idle ([docs](https://learn.microsoft.com/azure/container-apps/gpu-serverless-overview))
+- Own GPU quota: worked where A100 VM quota was 0
+- One container runs download, training and scoring
+
+### ❌ Cons
+- One GPU per job, no multi-node training
+- Long runs need storage keys for checkpoints (blocked by policy here)
 - No experiment tracking or model registry
 
-## What the research says
+## 📚 Backed by research
 
-- ✅ **Prompting can beat training:** LogPrompt, no in-domain training, beat detectors trained on thousands of logs by up to 55.9% ([arXiv 2308.07610](https://arxiv.org/abs/2308.07610), 2023)
-- ✅ **Microsoft, 100,000+ production incidents:** GPT-4 with in-context examples beat a fine-tuned model by 24.8% at root cause analysis, avoiding fine-tuning cost ([arXiv 2401.13810](https://arxiv.org/abs/2401.13810), 2024)
-- ❌ **Fine-tuning still leads public benchmarks:** LogLLM +6.6% F1 over the previous best ([arXiv 2411.08561](https://arxiv.org/abs/2411.08561), 2024); LogLLaMA ([arXiv 2503.14849](https://arxiv.org/abs/2503.14849), 2025)
-- ➕ **Industry combines both:** Microsoft RCACopilot matches incidents with rules, then an LLM explains the root cause ([arXiv 2305.15778](https://arxiv.org/abs/2305.15778), 2023)
+- ✅ **Prompting beat trained detectors by up to 56%**, with no training ([LogPrompt, 2023](https://arxiv.org/abs/2308.07610))
+- ✅ **Microsoft, 100,000+ real incidents:** GPT-4 with examples beat a fine-tuned model by 25% at finding root causes ([2024](https://arxiv.org/abs/2401.13810))
+- ⚖️ **Fine-tuned models still lead public benchmarks** ([LogLLM, 2024](https://arxiv.org/abs/2411.08561); [LogLLaMA, 2025](https://arxiv.org/abs/2503.14849))
+- ➕ **Industry pairs both:** rules find the incident, the LLM explains it ([Microsoft RCACopilot, 2023](https://arxiv.org/abs/2305.15778))
 - 💲 **Tokens got cheap:** GPT-4 cost $30 input and $60 output per 1M tokens in 2023; gpt-6-luna costs $0.12 and $0.60
 
-## When fine-tuning would still win
+## 🧭 When to choose the GPU instead
 
-- The logs have no correlation ids, only time windows
-- The anomalies cannot be described as a broken flow, only as unusual patterns
-- Millions of traces a day must be scored in real time
+- Logs have no correlation ids, only time windows
+- Problems cannot be described as a broken flow
+- Millions of traces a day must be checked in real time
 
-## Redo in the customer's tenant
+## 🔬 How we tested
 
-- Customer data goes in `data/customer` (git-ignored), shaped like `data/synthetic/prod_like`: `logs/*.log` with `<ts> <LEVEL> <service> host=<host> corrId=<id> <message>`, plus `traces_labelled.jsonl`, `incidents.csv`, `flows.yaml`
-- Add the customer's value fields to `MASKED_KEYS` in `src/logpoc/data/prepare.py`
+- Synthetic logs: 10 days, 4 business flows, 2 incidents, 80 labelled traces
+- Next: the same test on real logs
+
+<details>
+<summary>Run it in your tenant</summary>
+
+- Put your data in `data/customer` (git-ignored), shaped like `data/synthetic/prod_like`: `logs/*.log` with `<ts> <LEVEL> <service> host=<host> corrId=<id> <message>`, plus `traces_labelled.jsonl`, `incidents.csv`, `flows.yaml`
+- Add your value fields to `MASKED_KEYS` in `src/logpoc/data/prepare.py`
 - Official Llama 2 weights: accept Meta's licence on Hugging Face, set `meta-llama/Llama-2-7b-hf` in `configs/llama2_7b.yaml`, add an `HF_TOKEN` secret to the job
 
 ```bash
@@ -135,4 +155,6 @@ python -m logpoc baseline-grep --data data/customer --split test --run-id grep-$
 python -m logpoc compare --pricing configs/pricing_azure_list.yaml
 ```
 
-- More detail: [DECISIONS.md](DECISIONS.md), [data/synthetic/prod_like/README.md](data/synthetic/prod_like/README.md)
+More detail: [DECISIONS.md](DECISIONS.md), [data/synthetic/prod_like/README.md](data/synthetic/prod_like/README.md)
+
+</details>
