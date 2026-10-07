@@ -89,6 +89,7 @@ def make_client():
     tenant = os.environ.get("AZURE_TENANT_ID")
     cred = AzureCliCredential(tenant_id=tenant) if tenant else DefaultAzureCredential()
     token = get_bearer_token_provider(cred, "https://cognitiveservices.azure.com/.default")
+    token()  # fill the token cache once, before many threads ask for it at the same time
     endpoint = os.environ["AZURE_OPENAI_ENDPOINT"].rstrip("/")
     # retries honour the 429 retry-after header of the Foundry rate limit
     return OpenAI(base_url=f"{endpoint}/openai/v1/", api_key=token, max_retries=10)
