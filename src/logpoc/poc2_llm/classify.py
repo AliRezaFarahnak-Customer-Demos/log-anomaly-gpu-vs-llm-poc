@@ -155,7 +155,7 @@ def classify_one(
     flows: str | None,
     effort: str | None = None,
     flow_names: list[str] | None = None,
-) -> tuple[dict, int, int]:
+) -> tuple[dict, int, int, int]:
     # effort None keeps the model's default reasoning level
     extra = {"reasoning_effort": effort} if effort else {}
     schema = build_schema(len(lines), flow_names)
@@ -171,7 +171,9 @@ def classify_one(
         **extra,
     )
     answer = json.loads(resp.choices[0].message.content)
-    return answer, resp.usage.prompt_tokens, resp.usage.completion_tokens
+    details = getattr(resp.usage, "prompt_tokens_details", None)
+    cached = getattr(details, "cached_tokens", 0) or 0  # billed at the lower cached-input price
+    return answer, resp.usage.prompt_tokens, resp.usage.completion_tokens, cached
 
 
 def run(
@@ -215,7 +217,7 @@ def run(
         start_time=utc_now(),
     )
 
-    def classify(s: dict) -> tuple[dict, int, int]:
+    def classify(s: dict) -> tuple[dict, int, int, int]:
         return classify_one(client, model, s["lines"], flows, effort, flow_names)
 
     with ThreadPoolExecutor(concurrency) as pool:
@@ -223,7 +225,7 @@ def run(
 
     records = []
     with (rdir / "answers.jsonl").open("w", encoding="utf-8", newline="\n") as f:
-        for s, (answer, _, _) in zip(seqs, results, strict=True):
+        for s, (answer, *_) in zip(seqs, results, strict=True):
             f.write(json.dumps({"trace_id": s["trace_id"], **answer}) + "\n")
             lab = labels[s["trace_id"]]
             idx = answer["first_deviation_line"]
@@ -241,6 +243,7 @@ def run(
             )
     tokens_in = sum(r[1] for r in results)
     tokens_out = sum(r[2] for r in results)
+    tokens_cached = sum(r[3] for r in results)
     wall = time.time() - t0
     payload = write_eval(
         rdir,
@@ -253,6 +256,7 @@ def run(
             "scoring_seconds": wall,
             "input_tokens": tokens_in,
             "output_tokens": tokens_out,
+            "cached_input_tokens": tokens_cached,
             "cost_per_1000": llm_cost_per_1000(tokens_in, tokens_out, len(records), load_pricing()),
         },
         title=f"PoC 2 LLM ({model}, context {context}) on {split}",
@@ -262,6 +266,6 @@ def run(
     m = payload["metrics"]
     print(
         f"{rid} {split}: precision={m['precision']} recall={m['recall']} f1={m['f1']} "
-        f"tokens in={tokens_in} out={tokens_out}"
+        f"tokens in={tokens_in} (cached {tokens_cached}) out={tokens_out}"
     )
     return 0
