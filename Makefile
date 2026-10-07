@@ -7,10 +7,10 @@ CONTEXT ?= expected-flow
 RUN_ID ?=
 IMAGE ?= logpoc:local
 
-.PHONY: help install data test lint build train resume evaluate poc2 baseline compare
+.PHONY: help install data data-prod-like test lint build train resume evaluate poc2 baseline compare
 
 help:
-	@echo "targets: install data test lint build train resume evaluate poc2 baseline compare"
+	@echo "targets: install data data-prod-like test lint build train resume evaluate poc2 baseline compare"
 
 install:
 	uv venv --python 3.12 .venv
@@ -23,6 +23,9 @@ data:
 test:
 	$(PY) -m ruff check .
 	$(PY) -m pytest
+
+data-prod-like:
+	$(PY) -m logpoc generate-prod-like --config configs/data_prod_like.yaml --out data/synthetic/prod_like
 
 lint:
 	$(PY) -m ruff check .

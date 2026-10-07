@@ -1,0 +1,50 @@
+{
+  "generator_version": "1.0",
+  "seed": 20261009,
+  "config_sha256": "f39ab313a8e316fb0e8bd21a47c2c36ce863c0edf5623ff96d194bbcd7e19a5d",
+  "days": 10,
+  "lines": 35298,
+  "traces": 4633,
+  "traces_by_flow": {
+    "disbursement": 242,
+    "instalment_collection": 1873,
+    "loan_conversion_quote": 1115,
+    "mortgage_application": 1403
+  },
+  "anomalous_traces": 112,
+  "templates": 36,
+  "labelled": {
+    "traces": 80,
+    "anomalous": 30
+  },
+  "splits": {
+    "train": 3910,
+    "val": 434,
+    "dev": 0,
+    "fewshot": 0,
+    "test": 80
+  },
+  "files": {
+    "logs/prod_2026-03-02.log": "5e258a27966a6a539a8e6b4701587bf81794b1fcd5bd2a0d61b5c856b1dcbd8e",
+    "logs/prod_2026-03-03.log": "9b806c03f0a2838ba5c617fa15ac66ffe97d9c63f32bac578dfb8788779edbe3",
+    "logs/prod_2026-03-04.log": "436eb6e2d203ac8ee9ebbbf5c1ff8e243ee6d08c25472170df62066cced2fcef",
+    "logs/prod_2026-03-05.log": "c8fcccb0851f0a8ed4211d2f634b5e6d7489d2eb5ed7f8d58cf64ff57e4a3cc4",
+    "logs/prod_2026-03-06.log": "59607d67985fc0a4097b48cb0c4f44e6170d4f666efaf860d5d1aae972d18956",
+    "logs/prod_2026-03-07.log": "7722ca18960571fc88aa1849ea504e22c03d96bf754251638950de6e9fd0d3e0",
+    "logs/prod_2026-03-08.log": "05e4fa21f61bfa980b9280ba6342b4a85d0a93b53bb804e5526185e292c144ed",
+    "logs/prod_2026-03-09.log": "03a29f0c78b6a8c91797d20e54926a3dee6190e8acb5f013371bd6f50869b8f7",
+    "logs/prod_2026-03-10.log": "c2c0dacc8ba88583a3aa038a4321f7d97c80c7ae84c9a2e232b917c8b163230e",
+    "logs/prod_2026-03-11.log": "cd311728dacace0f8161f10667603bb4d952295aa60a6692e9e1dcf3d0ba211b",
+    "drain_templates.csv": "95bff6e0bfcfc090a1960dfec64e70b081f3f7fc3680f55547cd07b1825469c3",
+    "traces_labelled.jsonl": "bd81aa61832095cb0b7698d632a7eadcada6327421511c1b9182d7bcf02bec30",
+    "incidents.csv": "ce1f8d5e872a1e0b536a0b8f002c45a07f79a9767cba10faf4c904d9396250db",
+    "flows.yaml": "dda39f90c18a6550685ae0c256cbb7f77b0e3f4a085965313113fd3885bc337c",
+    "truth/trace_truth.csv": "31892bab939381d200102c10c42e3a51b98f1181919429a692a39be7dd3c0e1a",
+    "labels_test.csv": "12a5ff3c0ccbfcba110f16fe61472084f8dfb421f7d4fbe665eab7cdf8aeb721",
+    "raw_train.log": "555bc8128702a6c5195e4fdc0f9ac2a83af1fd5da62556e6256f9d13cf30cbe0",
+    "raw_val.log": "fdea7cca0ce370fc938d15efc02b8329f07a2eff3f094ee75b0ad31f8e33ce93",
+    "raw_dev.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw_fewshot.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw_test.log": "ab52de704338d938230442b5c803560be57d9d8ad8cc58d928c85236079d8c60"
+  }
+}

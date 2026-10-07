@@ -1,0 +1,32 @@
+# Llama 2 7B, the base model of the LogLLaMA approach. LoRA fine-tune on normal traces.
+# The official repo meta-llama/Llama-2-7b-hf is gated: accept Meta's licence on Hugging Face
+# and set HF_TOKEN. This config uses an ungated community copy of the same release.
+method: poc1-gpu
+variant: llama2_7b
+base_model:
+  repo_id: NousResearch/Llama-2-7b-hf
+  local_dir: models/llama-2-7b
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+train:
+  seed: 42
+  # long enough for the longest trace (a retry storm in the mortgage flow)
+  max_length: 512
+  learning_rate: 2.0e-4
+  lr_scheduler: cosine
+  warmup_ratio: 0.03
+  epochs: 2
+  # one A100 80GB: effective batch size 16 without gradient checkpointing
+  per_device_batch_size: 8
+  grad_accum_steps: 2
+  logging_steps: 10
+  save_steps: 100
+  save_total_limit: 1
+  gradient_checkpointing: false
+  max_steps: null
+  demo_sleep_per_step_s: 0
+eval:
+  threshold_percentile: 99

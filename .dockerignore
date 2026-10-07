@@ -1,0 +1,13 @@
+.git
+.venv
+.ml
+.vscode
+.devcontainer
+notes
+tests
+infra
+**/__pycache__
+**/*.pyc
+data/synthetic/*/prepared
+data/synthetic/prod_like/logs
+data/synthetic/prod_like/truth

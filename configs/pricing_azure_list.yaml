@@ -1,0 +1,7 @@
+# Azure retail list prices in USD from prices.azure.com, looked up on 7 Oct 2026.
+# Use with: logpoc compare --pricing configs/pricing_azure_list.yaml
+# LLM: gpt-5.6-luna, Data Zone Standard, short context.
+llm_input_per_1m_tokens: 0.22
+llm_output_per_1m_tokens: 1.32
+# GPU: Container Apps serverless A100 (Consumption-GPU-NC24-A100), 0.000688 per second.
+gpu_per_hour: 2.4768

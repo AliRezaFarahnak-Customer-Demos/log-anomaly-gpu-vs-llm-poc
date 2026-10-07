@@ -1,0 +1,84 @@
+# Synthetic stand-in for the production extract the customer plans to bring:
+# 10 consecutive days of Splunk application logs from a mortgage bank, unlabelled,
+# with two major incidents. Replace with the real extract through the same schema.
+seed: 20261009
+generator_version: "1.0"
+start_date: "2026-03-02"
+days: 10
+utc_offset_hours: 1
+
+# Mean share of traces that take an optional, harmless variation.
+flows:
+  mitid_retry_prob: 0.04
+  ledger_retry_prob: 0.03
+  valuation_cache_prob: 0.25
+  degraded_slow_prob: 0.5
+
+# Anomalies outside the two incidents, per trace.
+background_anomaly_rate: 0.004
+
+# Traces per day. window = [first hour, last hour, busiest hour] in local time.
+traffic:
+  mortgage_application:
+    weekday: 160
+    weekend: 45
+    window: [8, 17, 13]
+  loan_conversion_quote:
+    weekday: 120
+    weekend: 70
+    window: [7, 22, 12]
+  disbursement:
+    weekday: 30
+    weekend: 0
+    window: [9, 16, 11]
+  instalment_collection:
+    weekday: 190
+    weekend: 190
+    window: [2, 3.5, 2.75]
+
+incidents:
+  - id: INC-1
+    title: Property valuation provider degraded; applications skip or fail the credit path
+    flow: mortgage_application
+    precursor_start: "2026-03-05T13:35:00+01:00"
+    start: "2026-03-05T14:10:00+01:00"
+    end: "2026-03-05T15:25:00+01:00"
+    affected_share: 0.65
+    anomaly_weights:
+      silent_skip: 0.5
+      visible_error: 0.3
+      truncated: 0.2
+    noise:
+      service: valuation-service
+      level: WARN
+      message: "valuation provider latency p95 high p95_ms={p95}"
+      every_s: 120
+      value_range: [2500, 6500]
+  - id: INC-2
+    title: Ledger posting backlog during the nightly instalment collection
+    flow: instalment_collection
+    precursor_start: "2026-03-10T01:30:00+01:00"
+    start: "2026-03-10T02:00:00+01:00"
+    end: "2026-03-10T04:20:00+01:00"
+    stretch_window: true
+    affected_share: 0.55
+    anomaly_weights:
+      truncated: 0.45
+      retry_storm: 0.30
+      wrong_order: 0.25
+    noise:
+      service: ledger-service
+      level: WARN
+      message: "posting queue depth high depth={p95}"
+      every_s: 120
+      value_range: [4000, 25000]
+
+# Shape of the labelled evaluation set the customer is asked to prepare.
+labelled_set:
+  normal: 50
+  anomalous: 30
+  hard_negatives: 4
+  anomalous_quota:
+    INC-1: 12
+    INC-2: 10
+    background: 8

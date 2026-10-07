@@ -32,5 +32,5 @@ infra/env.local
 notes/
 
 # derived by "logpoc prepare"
-data/synthetic/v1/prepared/
-data/synthetic/v1/prepared.tmp-*/
+data/synthetic/*/prepared/
+data/synthetic/*/prepared.tmp-*/

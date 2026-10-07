@@ -1,0 +1,532 @@
+2026-03-02T02:13:01.333+01:00 INFO payment-scheduler trace=c-4a02ecab1141494c instalment collection started loan_id=LN731307040 due_date=2026-03-02
+2026-03-02T02:13:01.408+01:00 INFO payment-service trace=c-4a02ecab1141494c direct debit mandate verified loan_id=LN731307040 mandate_id=MD3914042
+2026-03-02T02:13:01.486+01:00 INFO payment-service trace=c-4a02ecab1141494c payment instruction sent loan_id=LN731307040 amount_dkk=7902.38
+2026-03-02T02:13:01.546+01:00 INFO ledger-service trace=c-4a02ecab1141494c ledger posting accepted loan_id=LN731307040 amount_dkk=7902.38 posting_id=PST-6268392c4d
+2026-03-02T02:13:01.638+01:00 INFO payment-service trace=c-4a02ecab1141494c payment settled loan_id=LN731307040 amount_dkk=7902.38
+2026-03-02T02:13:01.650+01:00 INFO notification-service trace=c-4a02ecab1141494c payment receipt sent loan_id=LN731307040 channel=EMAIL
+2026-03-02T02:49:14.785+01:00 INFO payment-scheduler trace=c-d4b084a1edd95cba instalment collection started loan_id=LN502369137 due_date=2026-03-07
+2026-03-02T02:49:14.865+01:00 INFO payment-service trace=c-d4b084a1edd95cba direct debit mandate verified loan_id=LN502369137 mandate_id=MD9298194
+2026-03-02T02:49:14.870+01:00 INFO payment-service trace=c-d4b084a1edd95cba payment instruction sent loan_id=LN502369137 amount_dkk=6046.57
+2026-03-02T10:50:43.552+01:00 INFO portal-bff trace=c-dbd3b78f620d995d loan application submitted application_id=APP-2026-255231 customer_segment=RETAIL
+2026-03-02T10:50:43.665+01:00 INFO identity-service trace=c-dbd3b78f620d995d MitID session validated customer_id=C27334265
+2026-03-02T10:50:43.764+01:00 INFO customer-service trace=c-dbd3b78f620d995d KYC profile loaded customer_id=C27334265 risk_class=LOW
+2026-03-02T10:50:43.814+01:00 INFO valuation-service trace=c-dbd3b78f620d995d property valuation requested property_id=P8837172 provider=bolig-vurdering
+2026-03-02T10:50:44.385+01:00 INFO valuation-service trace=c-dbd3b78f620d995d property valuation received property_id=P8837172 value_dkk=4730000 latency_ms=447
+2026-03-02T10:50:44.413+01:00 INFO credit-service trace=c-dbd3b78f620d995d credit assessment completed application_id=APP-2026-255231 score=800 decision=APPROVED
+2026-03-02T10:50:44.517+01:00 INFO offer-service trace=c-dbd3b78f620d995d loan offer generated application_id=APP-2026-255231 loan_type=FLEX_5Y principal_dkk=5710000
+2026-03-02T10:50:44.646+01:00 INFO document-service trace=c-dbd3b78f620d995d offer document stored application_id=APP-2026-255231 doc_id=DOC-6d7154d9
+2026-03-02T10:50:44.710+01:00 INFO portal-bff trace=c-dbd3b78f620d995d application completed application_id=APP-2026-255231 status=OFFER_ISSUED
+2026-03-02T11:01:39.137+01:00 INFO offer-service trace=c-5bac8924b59969ca offer accepted application_id=APP-2026-741811
+2026-03-02T11:01:39.143+01:00 INFO ledger-service trace=c-5bac8924b59969ca funds reserved application_id=APP-2026-741811 amount_dkk=535000
+2026-03-02T11:01:39.183+01:00 INFO payment-service trace=c-5bac8924b59969ca payout instruction sent application_id=APP-2026-741811 amount_dkk=535000
+2026-03-02T11:01:39.224+01:00 INFO ledger-service trace=c-5bac8924b59969ca payout booked application_id=APP-2026-741811 posting_id=PST-d706d559e4
+2026-03-02T11:01:39.239+01:00 INFO notification-service trace=c-5bac8924b59969ca payout confirmation sent application_id=APP-2026-741811
+2026-03-02T11:17:20.655+01:00 INFO offer-service trace=c-57cc0c4c3ffedc96 offer accepted application_id=APP-2026-978148
+2026-03-02T11:17:20.720+01:00 INFO ledger-service trace=c-57cc0c4c3ffedc96 funds reserved application_id=APP-2026-978148 amount_dkk=1610000
+2026-03-02T11:17:20.845+01:00 INFO payment-service trace=c-57cc0c4c3ffedc96 payout instruction sent application_id=APP-2026-978148 amount_dkk=1610000
+2026-03-02T11:17:20.881+01:00 INFO ledger-service trace=c-57cc0c4c3ffedc96 payout booked application_id=APP-2026-978148 posting_id=PST-30feac85a1
+2026-03-02T11:17:20.986+01:00 INFO notification-service trace=c-57cc0c4c3ffedc96 payout confirmation sent application_id=APP-2026-978148
+2026-03-02T12:54:16.321+01:00 INFO offer-service trace=c-2e9401391d8ae8cb offer accepted application_id=APP-2026-957166
+2026-03-02T12:54:16.383+01:00 INFO ledger-service trace=c-2e9401391d8ae8cb funds reserved application_id=APP-2026-957166 amount_dkk=1610000
+2026-03-02T12:54:16.445+01:00 INFO payment-service trace=c-2e9401391d8ae8cb payout instruction sent application_id=APP-2026-957166 amount_dkk=1610000
+2026-03-02T12:54:16.475+01:00 INFO ledger-service trace=c-2e9401391d8ae8cb payout booked application_id=APP-2026-957166 posting_id=PST-c5d98f245b
+2026-03-02T12:54:16.554+01:00 INFO notification-service trace=c-2e9401391d8ae8cb payout confirmation sent application_id=APP-2026-957166
+2026-03-02T13:44:03.376+01:00 INFO portal-bff trace=c-16c4950f27b39883 loan application submitted application_id=APP-2026-984178 customer_segment=RETAIL
+2026-03-02T13:44:03.402+01:00 INFO identity-service trace=c-16c4950f27b39883 MitID session validated customer_id=C58408134
+2026-03-02T13:44:03.436+01:00 INFO customer-service trace=c-16c4950f27b39883 KYC profile loaded customer_id=C58408134 risk_class=HIGH
+2026-03-02T13:44:03.561+01:00 INFO valuation-service trace=c-16c4950f27b39883 property valuation requested property_id=P6358253 provider=valuta-ejd
+2026-03-02T13:44:04.453+01:00 INFO valuation-service trace=c-16c4950f27b39883 property valuation received property_id=P6358253 value_dkk=1710000 latency_ms=753
+2026-03-02T13:44:04.511+01:00 INFO credit-service trace=c-16c4950f27b39883 credit assessment completed application_id=APP-2026-984178 score=591 decision=APPROVED
+2026-03-02T13:44:04.571+01:00 INFO offer-service trace=c-16c4950f27b39883 loan offer generated application_id=APP-2026-984178 loan_type=FLEX_5Y principal_dkk=2675000
+2026-03-02T13:44:04.649+01:00 INFO document-service trace=c-16c4950f27b39883 offer document stored application_id=APP-2026-984178 doc_id=DOC-e64d801d
+2026-03-02T13:44:04.707+01:00 INFO portal-bff trace=c-16c4950f27b39883 application completed application_id=APP-2026-984178 status=OFFER_ISSUED
+2026-03-02T13:52:19.269+01:00 INFO offer-service trace=c-10c69f2baa551f56 offer accepted application_id=APP-2026-230806
+2026-03-02T13:52:19.380+01:00 INFO ledger-service trace=c-10c69f2baa551f56 funds reserved application_id=APP-2026-230806 amount_dkk=5040000
+2026-03-02T13:52:19.430+01:00 INFO payment-service trace=c-10c69f2baa551f56 payout instruction sent application_id=APP-2026-230806 amount_dkk=5040000
+2026-03-02T13:52:19.495+01:00 INFO ledger-service trace=c-10c69f2baa551f56 payout booked application_id=APP-2026-230806 posting_id=PST-45094e0208
+2026-03-02T13:52:19.521+01:00 INFO notification-service trace=c-10c69f2baa551f56 payout confirmation sent application_id=APP-2026-230806
+2026-03-02T13:56:58.076+01:00 INFO portal-bff trace=c-3a355415127be85f conversion quote requested loan_id=LN811601150 target_product=FIXED_30Y
+2026-03-02T13:56:58.089+01:00 INFO identity-service trace=c-3a355415127be85f MitID session validated customer_id=C90658062
+2026-03-02T13:56:58.218+01:00 INFO pricing-service trace=c-3a355415127be85f bond price fetched series=BND3.0-2053 price=92.016
+2026-03-02T13:56:58.227+01:00 INFO pricing-service trace=c-3a355415127be85f conversion cost calculated loan_id=LN811601150 cost_dkk=65662.58
+2026-03-02T13:56:58.256+01:00 INFO quote-service trace=c-3a355415127be85f conversion quote issued quote_id=Q59067026 loan_id=LN811601150
+2026-03-02T16:02:12.377+01:00 INFO portal-bff trace=c-bbaf56390810a64c conversion quote requested loan_id=LN856815386 target_product=FLEX_5Y
+2026-03-02T16:02:12.516+01:00 INFO identity-service trace=c-bbaf56390810a64c MitID session validated customer_id=C45048581
+2026-03-02T16:02:12.563+01:00 INFO pricing-service trace=c-bbaf56390810a64c bond price fetched series=BND3.0-2053 price=93.167
+2026-03-02T16:02:12.576+01:00 INFO pricing-service trace=c-bbaf56390810a64c conversion cost calculated loan_id=LN856815386 cost_dkk=86809.98
+2026-03-02T16:02:12.654+01:00 INFO quote-service trace=c-bbaf56390810a64c conversion quote issued quote_id=Q85676905 loan_id=LN856815386
+2026-03-03T02:52:18.041+01:00 INFO payment-scheduler trace=c-76e02176b0d36d23 instalment collection started loan_id=LN655214990 due_date=2026-03-17
+2026-03-03T02:52:18.093+01:00 INFO payment-service trace=c-76e02176b0d36d23 direct debit mandate verified loan_id=LN655214990 mandate_id=MD7803400
+2026-03-03T02:52:18.099+01:00 INFO payment-service trace=c-76e02176b0d36d23 payment instruction sent loan_id=LN655214990 amount_dkk=12674.08
+2026-03-03T02:52:18.171+01:00 ERROR ledger-service trace=c-76e02176b0d36d23 ledger posting rejected loan_id=LN655214990 reason=QUEUE_TIMEOUT
+2026-03-03T02:52:18.289+01:00 INFO payment-service trace=c-76e02176b0d36d23 payment settled loan_id=LN655214990 amount_dkk=12674.08
+2026-03-03T02:52:18.374+01:00 INFO notification-service trace=c-76e02176b0d36d23 payment receipt sent loan_id=LN655214990 channel=DIGITAL_POST
+2026-03-03T10:12:27.052+01:00 INFO portal-bff trace=c-48d028efd880b48b loan application submitted application_id=APP-2026-704890 customer_segment=SME
+2026-03-03T10:12:27.067+01:00 WARN identity-service trace=c-48d028efd880b48b MitID token refresh attempt=1
+2026-03-03T10:12:27.117+01:00 INFO identity-service trace=c-48d028efd880b48b MitID session validated customer_id=C60189103
+2026-03-03T10:12:27.134+01:00 INFO customer-service trace=c-48d028efd880b48b KYC profile loaded customer_id=C60189103 risk_class=HIGH
+2026-03-03T10:12:27.230+01:00 INFO valuation-service trace=c-48d028efd880b48b property valuation requested property_id=P7077959 provider=bolig-vurdering
+2026-03-03T10:12:28.053+01:00 INFO valuation-service trace=c-48d028efd880b48b property valuation received property_id=P7077959 value_dkk=5200000 latency_ms=812
+2026-03-03T10:12:28.063+01:00 INFO credit-service trace=c-48d028efd880b48b credit assessment completed application_id=APP-2026-704890 score=855 decision=APPROVED
+2026-03-03T10:12:28.131+01:00 INFO offer-service trace=c-48d028efd880b48b loan offer generated application_id=APP-2026-704890 loan_type=FIXED_30Y principal_dkk=3220000
+2026-03-03T10:12:28.259+01:00 INFO document-service trace=c-48d028efd880b48b offer document stored application_id=APP-2026-704890 doc_id=DOC-451b35fd
+2026-03-03T10:12:28.372+01:00 INFO portal-bff trace=c-48d028efd880b48b application completed application_id=APP-2026-704890 status=OFFER_ISSUED
+2026-03-03T10:24:47.194+01:00 INFO offer-service trace=c-24559efea6ee2634 offer accepted application_id=APP-2026-056014
+2026-03-03T10:24:47.269+01:00 INFO ledger-service trace=c-24559efea6ee2634 funds reserved application_id=APP-2026-056014 amount_dkk=4015000
+2026-03-03T10:24:47.348+01:00 INFO payment-service trace=c-24559efea6ee2634 payout instruction sent application_id=APP-2026-056014 amount_dkk=4015000
+2026-03-03T10:24:47.374+01:00 INFO ledger-service trace=c-24559efea6ee2634 payout booked application_id=APP-2026-056014 posting_id=PST-212c9ec6e5
+2026-03-03T10:24:47.429+01:00 INFO notification-service trace=c-24559efea6ee2634 payout confirmation sent application_id=APP-2026-056014
+2026-03-03T10:51:16.802+01:00 INFO portal-bff trace=c-460edb25e9df92f6 loan application submitted application_id=APP-2026-298612 customer_segment=PRIVATE
+2026-03-03T10:51:16.934+01:00 INFO identity-service trace=c-460edb25e9df92f6 MitID session validated customer_id=C49886425
+2026-03-03T10:51:16.998+01:00 INFO customer-service trace=c-460edb25e9df92f6 KYC profile loaded customer_id=C49886425 risk_class=LOW
+2026-03-03T10:51:17.116+01:00 INFO valuation-service trace=c-460edb25e9df92f6 property valuation requested property_id=P8438541 provider=valuta-ejd
+2026-03-03T10:51:17.600+01:00 INFO valuation-service trace=c-460edb25e9df92f6 property valuation received property_id=P8438541 value_dkk=6450000 latency_ms=459
+2026-03-03T10:51:17.727+01:00 INFO credit-service trace=c-460edb25e9df92f6 credit assessment completed application_id=APP-2026-298612 score=620 decision=APPROVED
+2026-03-03T10:51:17.816+01:00 INFO offer-service trace=c-460edb25e9df92f6 loan offer generated application_id=APP-2026-298612 loan_type=FLEX_1Y principal_dkk=530000
+2026-03-03T10:51:17.884+01:00 INFO document-service trace=c-460edb25e9df92f6 offer document stored application_id=APP-2026-298612 doc_id=DOC-a652e475
+2026-03-03T10:51:17.913+01:00 INFO portal-bff trace=c-460edb25e9df92f6 application completed application_id=APP-2026-298612 status=OFFER_ISSUED
+2026-03-03T12:49:17.603+01:00 INFO portal-bff trace=c-cdcd57c7c0fb1b62 conversion quote requested loan_id=LN134873387 target_product=FLEX_1Y
+2026-03-03T12:49:17.627+01:00 INFO identity-service trace=c-cdcd57c7c0fb1b62 MitID session validated customer_id=C57149022
+2026-03-03T12:49:17.687+01:00 INFO pricing-service trace=c-cdcd57c7c0fb1b62 bond price fetched series=BND3.0-2053 price=93.454
+2026-03-03T12:49:17.706+01:00 INFO pricing-service trace=c-cdcd57c7c0fb1b62 bond price fetched series=BND3.0-2053 price=93.454
+2026-03-03T12:49:17.795+01:00 INFO pricing-service trace=c-cdcd57c7c0fb1b62 bond price fetched series=BND3.0-2053 price=93.454
+2026-03-03T12:49:17.911+01:00 INFO pricing-service trace=c-cdcd57c7c0fb1b62 bond price fetched series=BND3.0-2053 price=93.454
+2026-03-03T12:49:18.014+01:00 INFO pricing-service trace=c-cdcd57c7c0fb1b62 bond price fetched series=BND3.0-2053 price=93.454
+2026-03-03T12:49:18.044+01:00 INFO pricing-service trace=c-cdcd57c7c0fb1b62 bond price fetched series=BND3.0-2053 price=93.454
+2026-03-03T12:49:18.102+01:00 INFO pricing-service trace=c-cdcd57c7c0fb1b62 conversion cost calculated loan_id=LN134873387 cost_dkk=41018.02
+2026-03-03T12:49:18.138+01:00 INFO quote-service trace=c-cdcd57c7c0fb1b62 conversion quote issued quote_id=Q36327247 loan_id=LN134873387
+2026-03-03T13:06:27.297+01:00 INFO portal-bff trace=c-455de10b7b45ecd2 loan application submitted application_id=APP-2026-794875 customer_segment=SME
+2026-03-03T13:06:27.403+01:00 INFO identity-service trace=c-455de10b7b45ecd2 MitID session validated customer_id=C26679003
+2026-03-03T13:06:27.409+01:00 INFO customer-service trace=c-455de10b7b45ecd2 KYC profile loaded customer_id=C26679003 risk_class=HIGH
+2026-03-03T13:06:27.510+01:00 INFO valuation-service trace=c-455de10b7b45ecd2 property valuation requested property_id=P6735260 provider=bolig-vurdering
+2026-03-03T13:06:28.124+01:00 INFO valuation-service trace=c-455de10b7b45ecd2 property valuation received property_id=P6735260 value_dkk=1550000 latency_ms=544
+2026-03-03T13:06:28.168+01:00 INFO credit-service trace=c-455de10b7b45ecd2 credit assessment completed application_id=APP-2026-794875 score=429 decision=APPROVED
+2026-03-03T13:06:28.195+01:00 INFO offer-service trace=c-455de10b7b45ecd2 loan offer generated application_id=APP-2026-794875 loan_type=FIXED_30Y principal_dkk=2185000
+2026-03-03T13:06:28.212+01:00 INFO document-service trace=c-455de10b7b45ecd2 offer document stored application_id=APP-2026-794875 doc_id=DOC-c7e49bac
+2026-03-03T13:06:28.249+01:00 INFO portal-bff trace=c-455de10b7b45ecd2 application completed application_id=APP-2026-794875 status=OFFER_ISSUED
+2026-03-03T13:59:51.631+01:00 INFO offer-service trace=c-ad726456cbecfda7 offer accepted application_id=APP-2026-638322
+2026-03-03T13:59:51.664+01:00 INFO ledger-service trace=c-ad726456cbecfda7 funds reserved application_id=APP-2026-638322 amount_dkk=3440000
+2026-03-03T13:59:51.759+01:00 INFO payment-service trace=c-ad726456cbecfda7 payout instruction sent application_id=APP-2026-638322 amount_dkk=3440000
+2026-03-03T13:59:51.840+01:00 INFO ledger-service trace=c-ad726456cbecfda7 payout booked application_id=APP-2026-638322 posting_id=PST-c9256ee2fe
+2026-03-03T13:59:51.956+01:00 INFO notification-service trace=c-ad726456cbecfda7 payout confirmation sent application_id=APP-2026-638322
+2026-03-03T14:13:50.791+01:00 INFO offer-service trace=c-6208b899c95ca72a offer accepted application_id=APP-2026-104045
+2026-03-03T14:13:50.839+01:00 INFO ledger-service trace=c-6208b899c95ca72a funds reserved application_id=APP-2026-104045 amount_dkk=1005000
+2026-03-03T14:13:50.911+01:00 INFO ledger-service trace=c-6208b899c95ca72a payout booked application_id=APP-2026-104045 posting_id=PST-271fac3453
+2026-03-03T14:13:51.048+01:00 INFO payment-service trace=c-6208b899c95ca72a payout instruction sent application_id=APP-2026-104045 amount_dkk=1005000
+2026-03-03T14:13:51.072+01:00 INFO notification-service trace=c-6208b899c95ca72a payout confirmation sent application_id=APP-2026-104045
+2026-03-04T02:12:09.455+01:00 INFO payment-scheduler trace=c-d3ad526f9d8a595f instalment collection started loan_id=LN099470825 due_date=2026-03-15
+2026-03-04T02:12:09.550+01:00 INFO payment-service trace=c-d3ad526f9d8a595f direct debit mandate verified loan_id=LN099470825 mandate_id=MD3060168
+2026-03-04T02:12:09.681+01:00 INFO payment-service trace=c-d3ad526f9d8a595f payment instruction sent loan_id=LN099470825 amount_dkk=13890.39
+2026-03-04T02:12:09.764+01:00 INFO ledger-service trace=c-d3ad526f9d8a595f ledger posting accepted loan_id=LN099470825 amount_dkk=13890.39 posting_id=PST-5657ff7f6c
+2026-03-04T02:12:09.772+01:00 INFO payment-service trace=c-d3ad526f9d8a595f payment settled loan_id=LN099470825 amount_dkk=13890.39
+2026-03-04T02:12:09.786+01:00 INFO notification-service trace=c-d3ad526f9d8a595f payment receipt sent loan_id=LN099470825 channel=DIGITAL_POST
+2026-03-04T02:38:13.189+01:00 INFO payment-scheduler trace=c-0d7476190127364f instalment collection started loan_id=LN966220725 due_date=2026-03-11
+2026-03-04T02:38:13.263+01:00 INFO payment-service trace=c-0d7476190127364f direct debit mandate verified loan_id=LN966220725 mandate_id=MD1798189
+2026-03-04T02:38:13.391+01:00 INFO payment-service trace=c-0d7476190127364f payment instruction sent loan_id=LN966220725 amount_dkk=8288.01
+2026-03-04T02:38:13.426+01:00 INFO ledger-service trace=c-0d7476190127364f ledger posting accepted loan_id=LN966220725 amount_dkk=8288.01 posting_id=PST-27d64cc586
+2026-03-04T02:38:13.474+01:00 INFO payment-service trace=c-0d7476190127364f payment settled loan_id=LN966220725 amount_dkk=8288.01
+2026-03-04T02:38:13.496+01:00 INFO notification-service trace=c-0d7476190127364f payment receipt sent loan_id=LN966220725 channel=EMAIL
+2026-03-04T03:04:44.649+01:00 INFO payment-scheduler trace=c-a4add943dd18cfa5 instalment collection started loan_id=LN124754509 due_date=2026-03-07
+2026-03-04T03:04:44.768+01:00 INFO payment-service trace=c-a4add943dd18cfa5 direct debit mandate verified loan_id=LN124754509 mandate_id=MD2385305
+2026-03-04T03:04:44.870+01:00 INFO payment-service trace=c-a4add943dd18cfa5 payment instruction sent loan_id=LN124754509 amount_dkk=8091.97
+2026-03-04T03:04:44.926+01:00 INFO ledger-service trace=c-a4add943dd18cfa5 ledger posting accepted loan_id=LN124754509 amount_dkk=8091.97 posting_id=PST-5d46fa5f84
+2026-03-04T03:04:44.980+01:00 INFO payment-service trace=c-a4add943dd18cfa5 payment settled loan_id=LN124754509 amount_dkk=8091.97
+2026-03-04T03:04:45.044+01:00 INFO notification-service trace=c-a4add943dd18cfa5 payment receipt sent loan_id=LN124754509 channel=DIGITAL_POST
+2026-03-04T12:20:08.846+01:00 INFO offer-service trace=c-46cb5d28bd3aee2f offer accepted application_id=APP-2026-169705
+2026-03-04T12:20:08.863+01:00 INFO ledger-service trace=c-46cb5d28bd3aee2f funds reserved application_id=APP-2026-169705 amount_dkk=5020000
+2026-03-04T12:20:08.966+01:00 INFO payment-service trace=c-46cb5d28bd3aee2f payout instruction sent application_id=APP-2026-169705 amount_dkk=5020000
+2026-03-04T12:20:09.077+01:00 INFO ledger-service trace=c-46cb5d28bd3aee2f payout booked application_id=APP-2026-169705 posting_id=PST-d69a84a75e
+2026-03-04T12:20:09.143+01:00 INFO notification-service trace=c-46cb5d28bd3aee2f payout confirmation sent application_id=APP-2026-169705
+2026-03-04T12:20:54.692+01:00 INFO portal-bff trace=c-18548af7e5b4cfdb loan application submitted application_id=APP-2026-818031 customer_segment=PRIVATE
+2026-03-04T12:20:54.741+01:00 INFO identity-service trace=c-18548af7e5b4cfdb MitID session validated customer_id=C76941480
+2026-03-04T12:20:54.863+01:00 INFO customer-service trace=c-18548af7e5b4cfdb KYC profile loaded customer_id=C76941480 risk_class=MEDIUM
+2026-03-04T12:20:54.885+01:00 INFO valuation-service trace=c-18548af7e5b4cfdb property valuation requested property_id=P4403859 provider=bolig-vurdering
+2026-03-04T12:20:54.939+01:00 ERROR valuation-service trace=c-18548af7e5b4cfdb property valuation failed property_id=P4403859 provider=bolig-vurdering reason=PROVIDER_TIMEOUT after_ms=10000
+2026-03-04T12:20:54.985+01:00 INFO credit-service trace=c-18548af7e5b4cfdb credit assessment completed application_id=APP-2026-818031 score=605 decision=APPROVED
+2026-03-04T12:20:55.029+01:00 INFO offer-service trace=c-18548af7e5b4cfdb loan offer generated application_id=APP-2026-818031 loan_type=FIXED_30Y principal_dkk=3045000
+2026-03-04T12:20:55.101+01:00 INFO document-service trace=c-18548af7e5b4cfdb offer document stored application_id=APP-2026-818031 doc_id=DOC-f43ee6b6
+2026-03-04T12:20:55.109+01:00 INFO portal-bff trace=c-18548af7e5b4cfdb application completed application_id=APP-2026-818031 status=OFFER_ISSUED
+2026-03-04T12:49:54.970+01:00 INFO portal-bff trace=c-a3a41dcd6f574aec conversion quote requested loan_id=LN933298396 target_product=FIXED_30Y
+2026-03-04T12:49:54.993+01:00 INFO identity-service trace=c-a3a41dcd6f574aec MitID session validated customer_id=C55251023
+2026-03-04T12:49:55.042+01:00 INFO pricing-service trace=c-a3a41dcd6f574aec bond price fetched series=BND4.0-2053 price=88.353
+2026-03-04T12:49:55.113+01:00 INFO pricing-service trace=c-a3a41dcd6f574aec conversion cost calculated loan_id=LN933298396 cost_dkk=85248.77
+2026-03-04T12:49:55.252+01:00 INFO quote-service trace=c-a3a41dcd6f574aec conversion quote issued quote_id=Q09144950 loan_id=LN933298396
+2026-03-04T14:57:56.327+01:00 INFO offer-service trace=c-9fccf37edcb597a9 offer accepted application_id=APP-2026-132204
+2026-03-04T14:57:56.442+01:00 INFO ledger-service trace=c-9fccf37edcb597a9 funds reserved application_id=APP-2026-132204 amount_dkk=4080000
+2026-03-04T14:57:56.579+01:00 INFO payment-service trace=c-9fccf37edcb597a9 payout instruction sent application_id=APP-2026-132204 amount_dkk=4080000
+2026-03-04T14:57:56.644+01:00 INFO ledger-service trace=c-9fccf37edcb597a9 payout booked application_id=APP-2026-132204 posting_id=PST-ae83ff17d6
+2026-03-04T14:57:56.729+01:00 INFO notification-service trace=c-9fccf37edcb597a9 payout confirmation sent application_id=APP-2026-132204
+2026-03-05T12:57:50.042+01:00 INFO offer-service trace=c-d5d22d0895f3ec2f offer accepted application_id=APP-2026-043344
+2026-03-05T12:57:50.129+01:00 INFO ledger-service trace=c-d5d22d0895f3ec2f funds reserved application_id=APP-2026-043344 amount_dkk=4815000
+2026-03-05T12:57:50.153+01:00 INFO payment-service trace=c-d5d22d0895f3ec2f payout instruction sent application_id=APP-2026-043344 amount_dkk=4815000
+2026-03-05T12:57:50.172+01:00 INFO ledger-service trace=c-d5d22d0895f3ec2f payout booked application_id=APP-2026-043344 posting_id=PST-c0364575ad
+2026-03-05T12:57:50.208+01:00 INFO notification-service trace=c-d5d22d0895f3ec2f payout confirmation sent application_id=APP-2026-043344
+2026-03-05T13:37:57.471+01:00 INFO portal-bff trace=c-6b3f8dc882c9378b loan application submitted application_id=APP-2026-163623 customer_segment=SME
+2026-03-05T13:37:57.609+01:00 INFO identity-service trace=c-6b3f8dc882c9378b MitID session validated customer_id=C09490990
+2026-03-05T13:37:57.724+01:00 INFO customer-service trace=c-6b3f8dc882c9378b KYC profile loaded customer_id=C09490990 risk_class=LOW
+2026-03-05T13:37:57.836+01:00 INFO valuation-service trace=c-6b3f8dc882c9378b property valuation requested property_id=P8240583 provider=bolig-vurdering
+2026-03-05T13:37:57.921+01:00 WARN valuation-service trace=c-6b3f8dc882c9378b valuation provider slow, retrying property_id=P8240583 attempt=1
+2026-03-05T13:38:02.330+01:00 INFO valuation-service trace=c-6b3f8dc882c9378b property valuation received property_id=P8240583 value_dkk=6880000 latency_ms=4300
+2026-03-05T13:38:02.385+01:00 INFO credit-service trace=c-6b3f8dc882c9378b credit assessment completed application_id=APP-2026-163623 score=433 decision=APPROVED
+2026-03-05T13:38:02.481+01:00 INFO offer-service trace=c-6b3f8dc882c9378b loan offer generated application_id=APP-2026-163623 loan_type=FIXED_20Y_IO principal_dkk=1395000
+2026-03-05T13:38:02.581+01:00 INFO document-service trace=c-6b3f8dc882c9378b offer document stored application_id=APP-2026-163623 doc_id=DOC-2afb5505
+2026-03-05T13:38:02.657+01:00 INFO portal-bff trace=c-6b3f8dc882c9378b application completed application_id=APP-2026-163623 status=OFFER_ISSUED
+2026-03-05T13:47:54.621+01:00 INFO portal-bff trace=c-fe445c2b01434b9e loan application submitted application_id=APP-2026-855960 customer_segment=RETAIL
+2026-03-05T13:47:54.658+01:00 INFO identity-service trace=c-fe445c2b01434b9e MitID session validated customer_id=C52618575
+2026-03-05T13:47:54.756+01:00 INFO customer-service trace=c-fe445c2b01434b9e KYC profile loaded customer_id=C52618575 risk_class=LOW
+2026-03-05T13:47:54.883+01:00 INFO valuation-service trace=c-fe445c2b01434b9e property valuation requested property_id=P2929094 provider=bolig-vurdering
+2026-03-05T13:47:54.935+01:00 WARN valuation-service trace=c-fe445c2b01434b9e valuation provider slow, retrying property_id=P2929094 attempt=1
+2026-03-05T13:47:59.825+01:00 INFO valuation-service trace=c-fe445c2b01434b9e property valuation received property_id=P2929094 value_dkk=2640000 latency_ms=4765
+2026-03-05T13:47:59.893+01:00 INFO credit-service trace=c-fe445c2b01434b9e credit assessment completed application_id=APP-2026-855960 score=643 decision=APPROVED
+2026-03-05T13:47:59.996+01:00 INFO offer-service trace=c-fe445c2b01434b9e loan offer generated application_id=APP-2026-855960 loan_type=FLEX_1Y principal_dkk=3700000
+2026-03-05T13:48:00.123+01:00 INFO document-service trace=c-fe445c2b01434b9e offer document stored application_id=APP-2026-855960 doc_id=DOC-bd44fec2
+2026-03-05T13:48:00.141+01:00 INFO portal-bff trace=c-fe445c2b01434b9e application completed application_id=APP-2026-855960 status=OFFER_ISSUED
+2026-03-05T13:49:42.115+01:00 INFO portal-bff trace=c-bf522d8599e84f6c loan application submitted application_id=APP-2026-197197 customer_segment=SME
+2026-03-05T13:49:42.223+01:00 INFO identity-service trace=c-bf522d8599e84f6c MitID session validated customer_id=C29909088
+2026-03-05T13:49:42.360+01:00 INFO customer-service trace=c-bf522d8599e84f6c KYC profile loaded customer_id=C29909088 risk_class=MEDIUM
+2026-03-05T13:49:42.393+01:00 INFO valuation-service trace=c-bf522d8599e84f6c property valuation requested property_id=P6939642 provider=valuta-ejd
+2026-03-05T13:49:42.510+01:00 WARN valuation-service trace=c-bf522d8599e84f6c valuation provider slow, retrying property_id=P6939642 attempt=1
+2026-03-05T13:49:45.280+01:00 INFO valuation-service trace=c-bf522d8599e84f6c property valuation received property_id=P6939642 value_dkk=8140000 latency_ms=2711
+2026-03-05T13:49:45.402+01:00 INFO credit-service trace=c-bf522d8599e84f6c credit assessment completed application_id=APP-2026-197197 score=504 decision=APPROVED
+2026-03-05T13:49:45.493+01:00 INFO offer-service trace=c-bf522d8599e84f6c loan offer generated application_id=APP-2026-197197 loan_type=FLEX_5Y principal_dkk=1015000
+2026-03-05T13:49:45.609+01:00 INFO document-service trace=c-bf522d8599e84f6c offer document stored application_id=APP-2026-197197 doc_id=DOC-d6d1314a
+2026-03-05T13:49:45.694+01:00 INFO portal-bff trace=c-bf522d8599e84f6c application completed application_id=APP-2026-197197 status=OFFER_ISSUED
+2026-03-05T13:57:09.365+01:00 INFO portal-bff trace=c-1ff8fe0ef07b3550 loan application submitted application_id=APP-2026-383427 customer_segment=PRIVATE
+2026-03-05T13:57:09.410+01:00 INFO identity-service trace=c-1ff8fe0ef07b3550 MitID session validated customer_id=C71591689
+2026-03-05T13:57:09.477+01:00 INFO customer-service trace=c-1ff8fe0ef07b3550 KYC profile loaded customer_id=C71591689 risk_class=HIGH
+2026-03-05T13:57:09.571+01:00 INFO valuation-service trace=c-1ff8fe0ef07b3550 property valuation requested property_id=P6178204 provider=bolig-vurdering
+2026-03-05T13:57:09.669+01:00 WARN valuation-service trace=c-1ff8fe0ef07b3550 valuation provider slow, retrying property_id=P6178204 attempt=1
+2026-03-05T13:57:14.724+01:00 INFO valuation-service trace=c-1ff8fe0ef07b3550 property valuation received property_id=P6178204 value_dkk=6740000 latency_ms=4992
+2026-03-05T13:57:14.747+01:00 INFO credit-service trace=c-1ff8fe0ef07b3550 credit assessment completed application_id=APP-2026-383427 score=687 decision=APPROVED
+2026-03-05T13:57:14.879+01:00 INFO offer-service trace=c-1ff8fe0ef07b3550 loan offer generated application_id=APP-2026-383427 loan_type=FLEX_1Y principal_dkk=3500000
+2026-03-05T13:57:14.955+01:00 INFO document-service trace=c-1ff8fe0ef07b3550 offer document stored application_id=APP-2026-383427 doc_id=DOC-369678d4
+2026-03-05T13:57:14.975+01:00 INFO portal-bff trace=c-1ff8fe0ef07b3550 application completed application_id=APP-2026-383427 status=OFFER_ISSUED
+2026-03-05T14:11:03.840+01:00 INFO portal-bff trace=c-b381261bd45fe7a8 loan application submitted application_id=APP-2026-555703 customer_segment=SME
+2026-03-05T14:11:03.949+01:00 INFO identity-service trace=c-b381261bd45fe7a8 MitID session validated customer_id=C64108857
+2026-03-05T14:11:03.963+01:00 INFO customer-service trace=c-b381261bd45fe7a8 KYC profile loaded customer_id=C64108857 risk_class=LOW
+2026-03-05T14:11:04.094+01:00 INFO valuation-service trace=c-b381261bd45fe7a8 property valuation requested property_id=P5101278 provider=bolig-vurdering
+2026-03-05T14:11:04.182+01:00 WARN valuation-service trace=c-b381261bd45fe7a8 valuation provider slow, retrying property_id=P5101278 attempt=1
+2026-03-05T14:11:08.754+01:00 INFO valuation-service trace=c-b381261bd45fe7a8 property valuation received property_id=P5101278 value_dkk=5390000 latency_ms=4484
+2026-03-05T14:11:08.879+01:00 INFO offer-service trace=c-b381261bd45fe7a8 loan offer generated application_id=APP-2026-555703 loan_type=FIXED_30Y principal_dkk=3245000
+2026-03-05T14:11:09.001+01:00 INFO document-service trace=c-b381261bd45fe7a8 offer document stored application_id=APP-2026-555703 doc_id=DOC-a925af48
+2026-03-05T14:11:09.122+01:00 INFO portal-bff trace=c-b381261bd45fe7a8 application completed application_id=APP-2026-555703 status=OFFER_ISSUED
+2026-03-05T14:18:10.899+01:00 INFO portal-bff trace=c-8c4ff1dc753bd185 loan application submitted application_id=APP-2026-793909 customer_segment=RETAIL
+2026-03-05T14:18:10.968+01:00 INFO identity-service trace=c-8c4ff1dc753bd185 MitID session validated customer_id=C39957196
+2026-03-05T14:18:11.084+01:00 INFO customer-service trace=c-8c4ff1dc753bd185 KYC profile loaded customer_id=C39957196 risk_class=MEDIUM
+2026-03-05T14:18:11.177+01:00 INFO valuation-service trace=c-8c4ff1dc753bd185 property valuation requested property_id=P3535293 provider=valuta-ejd
+2026-03-05T14:18:17.407+01:00 INFO valuation-service trace=c-8c4ff1dc753bd185 property valuation received property_id=P3535293 value_dkk=8610000 latency_ms=6111
+2026-03-05T14:18:17.487+01:00 INFO offer-service trace=c-8c4ff1dc753bd185 loan offer generated application_id=APP-2026-793909 loan_type=FIXED_30Y principal_dkk=545000
+2026-03-05T14:18:17.596+01:00 INFO document-service trace=c-8c4ff1dc753bd185 offer document stored application_id=APP-2026-793909 doc_id=DOC-a3a21d88
+2026-03-05T14:18:17.684+01:00 INFO portal-bff trace=c-8c4ff1dc753bd185 application completed application_id=APP-2026-793909 status=OFFER_ISSUED
+2026-03-05T14:21:09.433+01:00 INFO portal-bff trace=c-16287a6218a44e48 loan application submitted application_id=APP-2026-718486 customer_segment=RETAIL
+2026-03-05T14:21:09.497+01:00 INFO identity-service trace=c-16287a6218a44e48 MitID session validated customer_id=C40685067
+2026-03-05T14:21:09.510+01:00 INFO customer-service trace=c-16287a6218a44e48 KYC profile loaded customer_id=C40685067 risk_class=LOW
+2026-03-05T14:21:09.580+01:00 INFO valuation-service trace=c-16287a6218a44e48 property valuation requested property_id=P2033759 provider=bolig-vurdering
+2026-03-05T14:21:15.515+01:00 INFO valuation-service trace=c-16287a6218a44e48 property valuation received property_id=P2033759 value_dkk=3780000 latency_ms=5861
+2026-03-05T14:21:15.541+01:00 INFO offer-service trace=c-16287a6218a44e48 loan offer generated application_id=APP-2026-718486 loan_type=FLEX_1Y principal_dkk=1985000
+2026-03-05T14:21:15.655+01:00 INFO document-service trace=c-16287a6218a44e48 offer document stored application_id=APP-2026-718486 doc_id=DOC-7b9c9244
+2026-03-05T14:21:15.677+01:00 INFO portal-bff trace=c-16287a6218a44e48 application completed application_id=APP-2026-718486 status=OFFER_ISSUED
+2026-03-05T14:22:22.548+01:00 INFO portal-bff trace=c-700a42c7704ae997 loan application submitted application_id=APP-2026-614768 customer_segment=RETAIL
+2026-03-05T14:22:22.600+01:00 INFO identity-service trace=c-700a42c7704ae997 MitID session validated customer_id=C89757300
+2026-03-05T14:22:22.718+01:00 INFO customer-service trace=c-700a42c7704ae997 KYC profile loaded customer_id=C89757300 risk_class=MEDIUM
+2026-03-05T14:22:22.812+01:00 INFO valuation-service trace=c-700a42c7704ae997 property valuation requested property_id=P8129678 provider=valuta-ejd
+2026-03-05T14:22:26.496+01:00 INFO valuation-service trace=c-700a42c7704ae997 property valuation received property_id=P8129678 value_dkk=3820000 latency_ms=3562
+2026-03-05T14:24:07.634+01:00 INFO portal-bff trace=c-a455b5af1a7be93c loan application submitted application_id=APP-2026-617540 customer_segment=RETAIL
+2026-03-05T14:24:07.707+01:00 INFO identity-service trace=c-a455b5af1a7be93c MitID session validated customer_id=C24460644
+2026-03-05T14:24:07.718+01:00 INFO customer-service trace=c-a455b5af1a7be93c KYC profile loaded customer_id=C24460644 risk_class=LOW
+2026-03-05T14:24:07.821+01:00 INFO valuation-service trace=c-a455b5af1a7be93c property valuation requested property_id=P5563167 provider=bolig-vurdering
+2026-03-05T14:24:13.197+01:00 INFO valuation-service trace=c-a455b5af1a7be93c property valuation received property_id=P5563167 value_dkk=8910000 latency_ms=5368
+2026-03-05T14:26:15.534+01:00 INFO portal-bff trace=c-bd291b4711624dc7 loan application submitted application_id=APP-2026-255232 customer_segment=SME
+2026-03-05T14:26:15.654+01:00 INFO identity-service trace=c-bd291b4711624dc7 MitID session validated customer_id=C35975003
+2026-03-05T14:26:15.712+01:00 INFO customer-service trace=c-bd291b4711624dc7 KYC profile loaded customer_id=C35975003 risk_class=MEDIUM
+2026-03-05T14:26:15.824+01:00 INFO valuation-service trace=c-bd291b4711624dc7 property valuation requested property_id=P4397369 provider=bolig-vurdering
+2026-03-05T14:26:15.910+01:00 ERROR valuation-service trace=c-bd291b4711624dc7 property valuation failed property_id=P4397369 provider=bolig-vurdering reason=PROVIDER_TIMEOUT after_ms=10000
+2026-03-05T14:26:16.025+01:00 INFO credit-service trace=c-bd291b4711624dc7 credit assessment completed application_id=APP-2026-255232 score=549 decision=APPROVED
+2026-03-05T14:26:16.092+01:00 INFO offer-service trace=c-bd291b4711624dc7 loan offer generated application_id=APP-2026-255232 loan_type=FLEX_5Y principal_dkk=1065000
+2026-03-05T14:26:16.111+01:00 INFO document-service trace=c-bd291b4711624dc7 offer document stored application_id=APP-2026-255232 doc_id=DOC-23d6e35e
+2026-03-05T14:26:16.190+01:00 INFO portal-bff trace=c-bd291b4711624dc7 application completed application_id=APP-2026-255232 status=OFFER_ISSUED
+2026-03-05T14:33:17.428+01:00 INFO portal-bff trace=c-127d66692362eefe loan application submitted application_id=APP-2026-612372 customer_segment=PRIVATE
+2026-03-05T14:33:17.517+01:00 INFO identity-service trace=c-127d66692362eefe MitID session validated customer_id=C03122626
+2026-03-05T14:33:17.651+01:00 INFO customer-service trace=c-127d66692362eefe KYC profile loaded customer_id=C03122626 risk_class=LOW
+2026-03-05T14:33:17.691+01:00 INFO valuation-service trace=c-127d66692362eefe property valuation requested property_id=P1988219 provider=valuta-ejd
+2026-03-05T14:33:20.924+01:00 INFO valuation-service trace=c-127d66692362eefe property valuation received property_id=P1988219 value_dkk=3360000 latency_ms=3185
+2026-03-05T14:33:21.001+01:00 INFO offer-service trace=c-127d66692362eefe loan offer generated application_id=APP-2026-612372 loan_type=FIXED_30Y principal_dkk=1600000
+2026-03-05T14:33:21.041+01:00 INFO document-service trace=c-127d66692362eefe offer document stored application_id=APP-2026-612372 doc_id=DOC-7a8f35fa
+2026-03-05T14:33:21.145+01:00 INFO portal-bff trace=c-127d66692362eefe application completed application_id=APP-2026-612372 status=OFFER_ISSUED
+2026-03-05T14:37:10.541+01:00 INFO portal-bff trace=c-cac5118d27147196 loan application submitted application_id=APP-2026-315341 customer_segment=PRIVATE
+2026-03-05T14:37:10.620+01:00 INFO identity-service trace=c-cac5118d27147196 MitID session validated customer_id=C90470712
+2026-03-05T14:37:10.680+01:00 INFO customer-service trace=c-cac5118d27147196 KYC profile loaded customer_id=C90470712 risk_class=HIGH
+2026-03-05T14:37:10.728+01:00 INFO valuation-service trace=c-cac5118d27147196 property valuation requested property_id=P3630494 provider=valuta-ejd
+2026-03-05T14:37:10.867+01:00 ERROR valuation-service trace=c-cac5118d27147196 property valuation failed property_id=P3630494 provider=valuta-ejd reason=PROVIDER_TIMEOUT after_ms=10000
+2026-03-05T14:37:10.902+01:00 INFO credit-service trace=c-cac5118d27147196 credit assessment completed application_id=APP-2026-315341 score=594 decision=APPROVED
+2026-03-05T14:37:10.963+01:00 INFO offer-service trace=c-cac5118d27147196 loan offer generated application_id=APP-2026-315341 loan_type=FIXED_30Y principal_dkk=5980000
+2026-03-05T14:37:10.975+01:00 INFO document-service trace=c-cac5118d27147196 offer document stored application_id=APP-2026-315341 doc_id=DOC-0afcefed
+2026-03-05T14:37:11.002+01:00 INFO portal-bff trace=c-cac5118d27147196 application completed application_id=APP-2026-315341 status=OFFER_ISSUED
+2026-03-05T14:44:07.473+01:00 INFO portal-bff trace=c-1270b9a044ea2517 loan application submitted application_id=APP-2026-441361 customer_segment=PRIVATE
+2026-03-05T14:44:07.572+01:00 INFO identity-service trace=c-1270b9a044ea2517 MitID session validated customer_id=C71993351
+2026-03-05T14:44:07.612+01:00 INFO customer-service trace=c-1270b9a044ea2517 KYC profile loaded customer_id=C71993351 risk_class=LOW
+2026-03-05T14:44:07.636+01:00 INFO valuation-service trace=c-1270b9a044ea2517 property valuation requested property_id=P5579569 provider=bolig-vurdering
+2026-03-05T14:44:07.742+01:00 WARN valuation-service trace=c-1270b9a044ea2517 valuation provider slow, retrying property_id=P5579569 attempt=1
+2026-03-05T14:44:07.877+01:00 ERROR valuation-service trace=c-1270b9a044ea2517 property valuation failed property_id=P5579569 provider=bolig-vurdering reason=PROVIDER_TIMEOUT after_ms=10000
+2026-03-05T14:44:07.897+01:00 INFO credit-service trace=c-1270b9a044ea2517 credit assessment completed application_id=APP-2026-441361 score=597 decision=APPROVED
+2026-03-05T14:44:08.028+01:00 INFO offer-service trace=c-1270b9a044ea2517 loan offer generated application_id=APP-2026-441361 loan_type=FIXED_30Y principal_dkk=4165000
+2026-03-05T14:44:08.121+01:00 INFO document-service trace=c-1270b9a044ea2517 offer document stored application_id=APP-2026-441361 doc_id=DOC-9e68ff77
+2026-03-05T14:44:08.253+01:00 INFO portal-bff trace=c-1270b9a044ea2517 application completed application_id=APP-2026-441361 status=OFFER_ISSUED
+2026-03-05T14:52:49.142+01:00 INFO portal-bff trace=c-cd45a8d7de9a433b loan application submitted application_id=APP-2026-930531 customer_segment=PRIVATE
+2026-03-05T14:52:49.250+01:00 INFO identity-service trace=c-cd45a8d7de9a433b MitID session validated customer_id=C50984528
+2026-03-05T14:52:49.335+01:00 INFO customer-service trace=c-cd45a8d7de9a433b KYC profile loaded customer_id=C50984528 risk_class=HIGH
+2026-03-05T14:52:49.421+01:00 INFO valuation-service trace=c-cd45a8d7de9a433b property valuation requested property_id=P0956042 provider=bolig-vurdering
+2026-03-05T14:52:49.496+01:00 WARN valuation-service trace=c-cd45a8d7de9a433b valuation provider slow, retrying property_id=P0956042 attempt=1
+2026-03-05T14:52:49.587+01:00 ERROR valuation-service trace=c-cd45a8d7de9a433b property valuation failed property_id=P0956042 provider=bolig-vurdering reason=PROVIDER_TIMEOUT after_ms=10000
+2026-03-05T14:52:49.663+01:00 INFO credit-service trace=c-cd45a8d7de9a433b credit assessment completed application_id=APP-2026-930531 score=528 decision=APPROVED
+2026-03-05T14:52:49.681+01:00 INFO offer-service trace=c-cd45a8d7de9a433b loan offer generated application_id=APP-2026-930531 loan_type=FLEX_5Y principal_dkk=3925000
+2026-03-05T14:52:49.793+01:00 INFO document-service trace=c-cd45a8d7de9a433b offer document stored application_id=APP-2026-930531 doc_id=DOC-17eae077
+2026-03-05T14:52:49.896+01:00 INFO portal-bff trace=c-cd45a8d7de9a433b application completed application_id=APP-2026-930531 status=OFFER_ISSUED
+2026-03-05T15:02:10.498+01:00 INFO portal-bff trace=c-55a3128b12139423 loan application submitted application_id=APP-2026-475916 customer_segment=RETAIL
+2026-03-05T15:02:10.508+01:00 INFO identity-service trace=c-55a3128b12139423 MitID session validated customer_id=C04127048
+2026-03-05T15:02:10.564+01:00 INFO customer-service trace=c-55a3128b12139423 KYC profile loaded customer_id=C04127048 risk_class=LOW
+2026-03-05T15:02:10.585+01:00 INFO valuation-service trace=c-55a3128b12139423 property valuation requested property_id=P0333144 provider=valuta-ejd
+2026-03-05T15:02:16.629+01:00 INFO valuation-service trace=c-55a3128b12139423 property valuation received property_id=P0333144 value_dkk=8290000 latency_ms=5906
+2026-03-05T15:14:21.676+01:00 INFO portal-bff trace=c-2cf791503497ad11 loan application submitted application_id=APP-2026-847496 customer_segment=RETAIL
+2026-03-05T15:14:21.763+01:00 INFO identity-service trace=c-2cf791503497ad11 MitID session validated customer_id=C98603524
+2026-03-05T15:14:21.824+01:00 INFO customer-service trace=c-2cf791503497ad11 KYC profile loaded customer_id=C98603524 risk_class=LOW
+2026-03-05T15:14:21.897+01:00 INFO valuation-service trace=c-2cf791503497ad11 property valuation requested property_id=P7828421 provider=valuta-ejd
+2026-03-05T15:14:21.977+01:00 WARN valuation-service trace=c-2cf791503497ad11 valuation provider slow, retrying property_id=P7828421 attempt=1
+2026-03-05T15:14:27.788+01:00 INFO valuation-service trace=c-2cf791503497ad11 property valuation received property_id=P7828421 value_dkk=4710000 latency_ms=5738
+2026-03-05T15:14:27.798+01:00 INFO offer-service trace=c-2cf791503497ad11 loan offer generated application_id=APP-2026-847496 loan_type=FLEX_1Y principal_dkk=5770000
+2026-03-05T15:14:27.893+01:00 INFO document-service trace=c-2cf791503497ad11 offer document stored application_id=APP-2026-847496 doc_id=DOC-92c62af1
+2026-03-05T15:14:27.928+01:00 INFO portal-bff trace=c-2cf791503497ad11 application completed application_id=APP-2026-847496 status=OFFER_ISSUED
+2026-03-06T02:19:25.874+01:00 INFO payment-scheduler trace=c-1deb9ab4af65e0d8 instalment collection started loan_id=LN137045887 due_date=2026-03-21
+2026-03-06T02:19:26.001+01:00 INFO payment-service trace=c-1deb9ab4af65e0d8 direct debit mandate verified loan_id=LN137045887 mandate_id=MD9767964
+2026-03-06T02:19:26.118+01:00 INFO payment-service trace=c-1deb9ab4af65e0d8 payment instruction sent loan_id=LN137045887 amount_dkk=14479.01
+2026-03-06T02:19:26.239+01:00 ERROR ledger-service trace=c-1deb9ab4af65e0d8 ledger posting rejected loan_id=LN137045887 reason=QUEUE_TIMEOUT
+2026-03-06T02:19:26.313+01:00 INFO payment-service trace=c-1deb9ab4af65e0d8 payment settled loan_id=LN137045887 amount_dkk=14479.01
+2026-03-06T02:19:26.328+01:00 INFO notification-service trace=c-1deb9ab4af65e0d8 payment receipt sent loan_id=LN137045887 channel=EMAIL
+2026-03-06T02:46:59.322+01:00 INFO payment-scheduler trace=c-0b6b669749550728 instalment collection started loan_id=LN432883981 due_date=2026-03-15
+2026-03-06T02:46:59.423+01:00 INFO payment-service trace=c-0b6b669749550728 direct debit mandate verified loan_id=LN432883981 mandate_id=MD3033310
+2026-03-06T02:46:59.516+01:00 INFO payment-service trace=c-0b6b669749550728 payment instruction sent loan_id=LN432883981 amount_dkk=8049.69
+2026-03-06T02:46:59.618+01:00 INFO ledger-service trace=c-0b6b669749550728 ledger posting accepted loan_id=LN432883981 amount_dkk=8049.69 posting_id=PST-86da358b09
+2026-03-06T02:46:59.664+01:00 INFO payment-service trace=c-0b6b669749550728 payment settled loan_id=LN432883981 amount_dkk=8049.69
+2026-03-06T02:46:59.702+01:00 INFO notification-service trace=c-0b6b669749550728 payment receipt sent loan_id=LN432883981 channel=EMAIL
+2026-03-06T02:54:12.504+01:00 INFO payment-scheduler trace=c-3479b825d6031c9e instalment collection started loan_id=LN522421119 due_date=2026-03-14
+2026-03-06T02:54:12.641+01:00 INFO payment-service trace=c-3479b825d6031c9e direct debit mandate verified loan_id=LN522421119 mandate_id=MD4483322
+2026-03-06T02:54:12.727+01:00 INFO payment-service trace=c-3479b825d6031c9e payment instruction sent loan_id=LN522421119 amount_dkk=8902.56
+2026-03-06T02:54:12.864+01:00 INFO ledger-service trace=c-3479b825d6031c9e ledger posting accepted loan_id=LN522421119 amount_dkk=8902.56 posting_id=PST-f82b7c1e0d
+2026-03-06T02:54:12.938+01:00 INFO payment-service trace=c-3479b825d6031c9e payment settled loan_id=LN522421119 amount_dkk=8902.56
+2026-03-06T02:54:13.064+01:00 INFO notification-service trace=c-3479b825d6031c9e payment receipt sent loan_id=LN522421119 channel=DIGITAL_POST
+2026-03-06T03:13:27.129+01:00 INFO payment-scheduler trace=c-b204bcc6cf94da74 instalment collection started loan_id=LN708402749 due_date=2026-03-22
+2026-03-06T03:13:27.215+01:00 INFO payment-service trace=c-b204bcc6cf94da74 direct debit mandate verified loan_id=LN708402749 mandate_id=MD8666695
+2026-03-06T03:13:27.291+01:00 INFO payment-service trace=c-b204bcc6cf94da74 payment instruction sent loan_id=LN708402749 amount_dkk=9146.47
+2026-03-06T03:13:27.326+01:00 INFO ledger-service trace=c-b204bcc6cf94da74 ledger posting accepted loan_id=LN708402749 amount_dkk=9146.47 posting_id=PST-fcb40db706
+2026-03-06T03:13:27.426+01:00 INFO payment-service trace=c-b204bcc6cf94da74 payment settled loan_id=LN708402749 amount_dkk=9146.47
+2026-03-06T03:13:27.434+01:00 INFO notification-service trace=c-b204bcc6cf94da74 payment receipt sent loan_id=LN708402749 channel=DIGITAL_POST
+2026-03-06T03:26:08.702+01:00 INFO payment-scheduler trace=c-53ddff63a2d5f8bf instalment collection started loan_id=LN160033120 due_date=2026-03-13
+2026-03-06T03:26:08.796+01:00 INFO payment-service trace=c-53ddff63a2d5f8bf direct debit mandate verified loan_id=LN160033120 mandate_id=MD2009356
+2026-03-06T03:26:08.886+01:00 INFO payment-service trace=c-53ddff63a2d5f8bf payment instruction sent loan_id=LN160033120 amount_dkk=9607.64
+2026-03-06T03:26:09.009+01:00 INFO ledger-service trace=c-53ddff63a2d5f8bf ledger posting accepted loan_id=LN160033120 amount_dkk=9607.64 posting_id=PST-e128ca4321
+2026-03-06T03:26:09.082+01:00 INFO payment-service trace=c-53ddff63a2d5f8bf payment settled loan_id=LN160033120 amount_dkk=9607.64
+2026-03-06T03:26:09.183+01:00 INFO notification-service trace=c-53ddff63a2d5f8bf payment receipt sent loan_id=LN160033120 channel=EMAIL
+2026-03-06T11:27:26.406+01:00 INFO portal-bff trace=c-c66725f3284ee13b loan application submitted application_id=APP-2026-800438 customer_segment=PRIVATE
+2026-03-06T11:27:26.470+01:00 INFO identity-service trace=c-c66725f3284ee13b MitID session validated customer_id=C66383595
+2026-03-06T11:27:26.535+01:00 INFO customer-service trace=c-c66725f3284ee13b KYC profile loaded customer_id=C66383595 risk_class=LOW
+2026-03-06T11:27:26.644+01:00 INFO valuation-service trace=c-c66725f3284ee13b property valuation requested property_id=P1171050 provider=bolig-vurdering
+2026-03-06T11:27:27.320+01:00 INFO valuation-service trace=c-c66725f3284ee13b property valuation received property_id=P1171050 value_dkk=5400000 latency_ms=607
+2026-03-06T11:27:27.331+01:00 INFO credit-service trace=c-c66725f3284ee13b credit assessment completed application_id=APP-2026-800438 score=550 decision=APPROVED
+2026-03-06T11:27:27.367+01:00 INFO offer-service trace=c-c66725f3284ee13b loan offer generated application_id=APP-2026-800438 loan_type=FIXED_20Y_IO principal_dkk=4110000
+2026-03-06T11:27:27.500+01:00 INFO document-service trace=c-c66725f3284ee13b offer document stored application_id=APP-2026-800438 doc_id=DOC-a287da8e
+2026-03-06T11:27:27.586+01:00 INFO portal-bff trace=c-c66725f3284ee13b application completed application_id=APP-2026-800438 status=OFFER_ISSUED
+2026-03-06T12:04:34.452+01:00 INFO offer-service trace=c-de0005b5e59a753e offer accepted application_id=APP-2026-450741
+2026-03-06T12:04:34.521+01:00 INFO ledger-service trace=c-de0005b5e59a753e funds reserved application_id=APP-2026-450741 amount_dkk=4635000
+2026-03-06T12:04:34.590+01:00 INFO payment-service trace=c-de0005b5e59a753e payout instruction sent application_id=APP-2026-450741 amount_dkk=4635000
+2026-03-06T12:04:34.608+01:00 INFO ledger-service trace=c-de0005b5e59a753e payout booked application_id=APP-2026-450741 posting_id=PST-2941311551
+2026-03-06T12:04:34.693+01:00 INFO notification-service trace=c-de0005b5e59a753e payout confirmation sent application_id=APP-2026-450741
+2026-03-06T13:18:31.003+01:00 INFO portal-bff trace=c-7f0b8b0c89037c7a loan application submitted application_id=APP-2026-247230 customer_segment=RETAIL
+2026-03-06T13:18:31.035+01:00 INFO identity-service trace=c-7f0b8b0c89037c7a MitID session validated customer_id=C92658855
+2026-03-06T13:18:31.047+01:00 INFO customer-service trace=c-7f0b8b0c89037c7a KYC profile loaded customer_id=C92658855 risk_class=LOW
+2026-03-06T13:18:31.127+01:00 INFO valuation-service trace=c-7f0b8b0c89037c7a property valuation served from cache property_id=P2789967 value_dkk=4480000
+2026-03-06T13:18:31.180+01:00 INFO credit-service trace=c-7f0b8b0c89037c7a credit assessment completed application_id=APP-2026-247230 score=859 decision=APPROVED
+2026-03-06T13:18:31.216+01:00 INFO offer-service trace=c-7f0b8b0c89037c7a loan offer generated application_id=APP-2026-247230 loan_type=FIXED_30Y principal_dkk=450000
+2026-03-06T13:18:31.319+01:00 INFO document-service trace=c-7f0b8b0c89037c7a offer document stored application_id=APP-2026-247230 doc_id=DOC-0754baea
+2026-03-06T13:18:31.431+01:00 INFO portal-bff trace=c-7f0b8b0c89037c7a application completed application_id=APP-2026-247230 status=OFFER_ISSUED
+2026-03-06T14:14:37.670+01:00 INFO portal-bff trace=c-efdada938e6169f8 conversion quote requested loan_id=LN211128593 target_product=FLEX_1Y
+2026-03-06T14:14:37.747+01:00 INFO identity-service trace=c-efdada938e6169f8 MitID session validated customer_id=C26652617
+2026-03-06T14:14:37.876+01:00 INFO pricing-service trace=c-efdada938e6169f8 bond price fetched series=BND4.0-2056 price=88.711
+2026-03-06T14:14:37.964+01:00 INFO pricing-service trace=c-efdada938e6169f8 conversion cost calculated loan_id=LN211128593 cost_dkk=88258.42
+2026-03-06T14:14:38.042+01:00 INFO quote-service trace=c-efdada938e6169f8 conversion quote issued quote_id=Q94627850 loan_id=LN211128593
+2026-03-06T15:01:19.161+01:00 INFO portal-bff trace=c-717c940325cd1ae4 loan application submitted application_id=APP-2026-405264 customer_segment=RETAIL
+2026-03-06T15:01:19.260+01:00 INFO identity-service trace=c-717c940325cd1ae4 MitID session validated customer_id=C37333272
+2026-03-06T15:01:19.282+01:00 INFO customer-service trace=c-717c940325cd1ae4 KYC profile loaded customer_id=C37333272 risk_class=LOW
+2026-03-06T15:01:19.352+01:00 INFO valuation-service trace=c-717c940325cd1ae4 property valuation requested property_id=P8073884 provider=bolig-vurdering
+2026-03-06T15:01:19.958+01:00 INFO valuation-service trace=c-717c940325cd1ae4 property valuation received property_id=P8073884 value_dkk=3950000 latency_ms=574
+2026-03-06T15:01:20.048+01:00 INFO credit-service trace=c-717c940325cd1ae4 credit assessment completed application_id=APP-2026-405264 score=703 decision=APPROVED
+2026-03-06T15:01:20.140+01:00 INFO offer-service trace=c-717c940325cd1ae4 loan offer generated application_id=APP-2026-405264 loan_type=FLEX_1Y principal_dkk=4565000
+2026-03-06T15:01:20.271+01:00 INFO document-service trace=c-717c940325cd1ae4 offer document stored application_id=APP-2026-405264 doc_id=DOC-ee4ca0af
+2026-03-06T15:01:20.397+01:00 INFO portal-bff trace=c-717c940325cd1ae4 application completed application_id=APP-2026-405264 status=OFFER_ISSUED
+2026-03-06T21:05:23.948+01:00 INFO portal-bff trace=c-9b65515818d31518 conversion quote requested loan_id=LN080827827 target_product=FIXED_30Y
+2026-03-06T21:05:24.036+01:00 INFO identity-service trace=c-9b65515818d31518 MitID session validated customer_id=C39398811
+2026-03-06T21:05:24.077+01:00 INFO pricing-service trace=c-9b65515818d31518 bond price fetched series=BND3.0-2053 price=97.607
+2026-03-06T21:05:24.129+01:00 INFO pricing-service trace=c-9b65515818d31518 conversion cost calculated loan_id=LN080827827 cost_dkk=23115.33
+2026-03-06T21:05:24.267+01:00 INFO quote-service trace=c-9b65515818d31518 conversion quote issued quote_id=Q38913812 loan_id=LN080827827
+2026-03-08T02:39:12.132+01:00 INFO payment-scheduler trace=c-eebd346cfc756bb9 instalment collection started loan_id=LN459827354 due_date=2026-03-17
+2026-03-08T02:39:12.269+01:00 INFO payment-service trace=c-eebd346cfc756bb9 direct debit mandate verified loan_id=LN459827354 mandate_id=MD1121342
+2026-03-08T02:39:12.299+01:00 INFO payment-service trace=c-eebd346cfc756bb9 payment instruction sent loan_id=LN459827354 amount_dkk=8654.23
+2026-03-08T02:39:12.363+01:00 INFO ledger-service trace=c-eebd346cfc756bb9 ledger posting accepted loan_id=LN459827354 amount_dkk=8654.23 posting_id=PST-63613ec47a
+2026-03-08T02:39:12.490+01:00 INFO payment-service trace=c-eebd346cfc756bb9 payment settled loan_id=LN459827354 amount_dkk=8654.23
+2026-03-08T02:39:12.555+01:00 INFO notification-service trace=c-eebd346cfc756bb9 payment receipt sent loan_id=LN459827354 channel=DIGITAL_POST
+2026-03-08T13:37:28.083+01:00 INFO portal-bff trace=c-0c903372eca72f95 conversion quote requested loan_id=LN461163160 target_product=FLEX_1Y
+2026-03-08T13:37:28.184+01:00 INFO identity-service trace=c-0c903372eca72f95 MitID session validated customer_id=C73514664
+2026-03-08T13:37:28.266+01:00 INFO pricing-service trace=c-0c903372eca72f95 bond price fetched series=BND4.0-2053 price=98.152
+2026-03-08T13:37:28.310+01:00 INFO pricing-service trace=c-0c903372eca72f95 conversion cost calculated loan_id=LN461163160 cost_dkk=25674.60
+2026-03-08T13:37:28.429+01:00 INFO quote-service trace=c-0c903372eca72f95 conversion quote issued quote_id=Q40827951 loan_id=LN461163160
+2026-03-09T03:03:48.657+01:00 INFO payment-scheduler trace=c-9b7d000b414fc0f8 instalment collection started loan_id=LN133103481 due_date=2026-03-20
+2026-03-09T03:03:48.721+01:00 INFO payment-service trace=c-9b7d000b414fc0f8 direct debit mandate verified loan_id=LN133103481 mandate_id=MD3970977
+2026-03-09T03:03:48.843+01:00 INFO payment-service trace=c-9b7d000b414fc0f8 payment instruction sent loan_id=LN133103481 amount_dkk=2636.84
+2026-03-09T03:03:48.863+01:00 INFO ledger-service trace=c-9b7d000b414fc0f8 ledger posting accepted loan_id=LN133103481 amount_dkk=2636.84 posting_id=PST-1e03e83e17
+2026-03-09T03:03:48.886+01:00 INFO payment-service trace=c-9b7d000b414fc0f8 payment settled loan_id=LN133103481 amount_dkk=2636.84
+2026-03-09T03:03:48.973+01:00 INFO notification-service trace=c-9b7d000b414fc0f8 payment receipt sent loan_id=LN133103481 channel=DIGITAL_POST
+2026-03-09T10:00:19.702+01:00 INFO portal-bff trace=c-e26ea04ab9d14905 conversion quote requested loan_id=LN634282864 target_product=FIXED_30Y
+2026-03-09T10:00:19.731+01:00 INFO identity-service trace=c-e26ea04ab9d14905 MitID session validated customer_id=C44080249
+2026-03-09T10:00:19.868+01:00 INFO pricing-service trace=c-e26ea04ab9d14905 conversion cost calculated loan_id=LN634282864 cost_dkk=16803.71
+2026-03-09T10:00:19.981+01:00 INFO pricing-service trace=c-e26ea04ab9d14905 bond price fetched series=BND2.5-2056 price=97.672
+2026-03-09T10:00:20.039+01:00 INFO quote-service trace=c-e26ea04ab9d14905 conversion quote issued quote_id=Q77689279 loan_id=LN634282864
+2026-03-09T11:49:19.822+01:00 INFO portal-bff trace=c-d76714da77706499 conversion quote requested loan_id=LN156641684 target_product=FLEX_5Y
+2026-03-09T11:49:19.833+01:00 INFO identity-service trace=c-d76714da77706499 MitID session validated customer_id=C89592696
+2026-03-09T11:49:19.946+01:00 INFO pricing-service trace=c-d76714da77706499 bond price fetched series=BND2.5-2053 price=99.231
+2026-03-09T11:49:19.990+01:00 INFO pricing-service trace=c-d76714da77706499 conversion cost calculated loan_id=LN156641684 cost_dkk=27202.80
+2026-03-09T11:49:20.040+01:00 INFO quote-service trace=c-d76714da77706499 conversion quote issued quote_id=Q43770680 loan_id=LN156641684
+2026-03-09T12:23:25.711+01:00 INFO portal-bff trace=c-5454d0f718e80c8b loan application submitted application_id=APP-2026-166020 customer_segment=RETAIL
+2026-03-09T12:23:25.762+01:00 INFO identity-service trace=c-5454d0f718e80c8b MitID session validated customer_id=C30233512
+2026-03-09T12:23:25.848+01:00 INFO customer-service trace=c-5454d0f718e80c8b KYC profile loaded customer_id=C30233512 risk_class=LOW
+2026-03-09T12:23:25.912+01:00 INFO valuation-service trace=c-5454d0f718e80c8b property valuation requested property_id=P9716097 provider=bolig-vurdering
+2026-03-09T12:23:26.547+01:00 INFO valuation-service trace=c-5454d0f718e80c8b property valuation received property_id=P9716097 value_dkk=8030000 latency_ms=622
+2026-03-09T12:23:26.554+01:00 INFO credit-service trace=c-5454d0f718e80c8b credit assessment completed application_id=APP-2026-166020 score=869 decision=APPROVED
+2026-03-09T12:23:26.632+01:00 INFO offer-service trace=c-5454d0f718e80c8b loan offer generated application_id=APP-2026-166020 loan_type=FIXED_30Y principal_dkk=2030000
+2026-03-09T12:23:26.737+01:00 INFO document-service trace=c-5454d0f718e80c8b offer document stored application_id=APP-2026-166020 doc_id=DOC-cc924397
+2026-03-09T12:23:26.749+01:00 INFO portal-bff trace=c-5454d0f718e80c8b application completed application_id=APP-2026-166020 status=OFFER_ISSUED
+2026-03-09T12:49:10.993+01:00 INFO portal-bff trace=c-8ef399d2e92f3523 conversion quote requested loan_id=LN614762482 target_product=FLEX_1Y
+2026-03-09T12:49:11.081+01:00 INFO identity-service trace=c-8ef399d2e92f3523 MitID session validated customer_id=C33083920
+2026-03-09T12:49:11.211+01:00 INFO pricing-service trace=c-8ef399d2e92f3523 bond price fetched series=BND2.5-2056 price=100.696
+2026-03-09T12:49:11.268+01:00 INFO pricing-service trace=c-8ef399d2e92f3523 conversion cost calculated loan_id=LN614762482 cost_dkk=4809.79
+2026-03-09T12:49:11.403+01:00 INFO quote-service trace=c-8ef399d2e92f3523 conversion quote issued quote_id=Q82546737 loan_id=LN614762482
+2026-03-10T02:20:42.829+01:00 INFO payment-scheduler trace=c-fd277d2c9d2c2e27 instalment collection started loan_id=LN101696826 due_date=2026-03-08
+2026-03-10T02:20:42.862+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 direct debit mandate verified loan_id=LN101696826 mandate_id=MD3680332
+2026-03-10T02:20:42.887+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 payment instruction sent loan_id=LN101696826 amount_dkk=16221.74
+2026-03-10T02:20:42.916+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 payment instruction sent loan_id=LN101696826 amount_dkk=16221.74
+2026-03-10T02:20:42.922+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 payment instruction sent loan_id=LN101696826 amount_dkk=16221.74
+2026-03-10T02:20:43.017+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 payment instruction sent loan_id=LN101696826 amount_dkk=16221.74
+2026-03-10T02:20:43.052+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 payment instruction sent loan_id=LN101696826 amount_dkk=16221.74
+2026-03-10T02:20:43.192+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 payment instruction sent loan_id=LN101696826 amount_dkk=16221.74
+2026-03-10T02:20:43.258+01:00 INFO ledger-service trace=c-fd277d2c9d2c2e27 ledger posting accepted loan_id=LN101696826 amount_dkk=16221.74 posting_id=PST-da303d6fe2
+2026-03-10T02:20:43.277+01:00 INFO payment-service trace=c-fd277d2c9d2c2e27 payment settled loan_id=LN101696826 amount_dkk=16221.74
+2026-03-10T02:20:43.303+01:00 INFO notification-service trace=c-fd277d2c9d2c2e27 payment receipt sent loan_id=LN101696826 channel=DIGITAL_POST
+2026-03-10T02:33:01.072+01:00 INFO payment-scheduler trace=c-b22e1af05748e8a4 instalment collection started loan_id=LN798570070 due_date=2026-03-16
+2026-03-10T02:33:01.082+01:00 INFO payment-service trace=c-b22e1af05748e8a4 direct debit mandate verified loan_id=LN798570070 mandate_id=MD6916175
+2026-03-10T02:33:01.191+01:00 INFO payment-service trace=c-b22e1af05748e8a4 payment instruction sent loan_id=LN798570070 amount_dkk=9134.02
+2026-03-10T02:33:01.232+01:00 WARN ledger-service trace=c-b22e1af05748e8a4 ledger posting retried loan_id=LN798570070 attempt=1
+2026-03-10T02:33:01.329+01:00 INFO ledger-service trace=c-b22e1af05748e8a4 ledger posting accepted loan_id=LN798570070 amount_dkk=9134.02 posting_id=PST-a2fb81b261
+2026-03-10T02:33:01.371+01:00 INFO payment-service trace=c-b22e1af05748e8a4 payment settled loan_id=LN798570070 amount_dkk=9134.02
+2026-03-10T02:33:01.414+01:00 INFO notification-service trace=c-b22e1af05748e8a4 payment receipt sent loan_id=LN798570070 channel=DIGITAL_POST
+2026-03-10T02:37:13.134+01:00 INFO payment-scheduler trace=c-4deef61a0ef969c1 instalment collection started loan_id=LN526796534 due_date=2026-03-07
+2026-03-10T02:37:13.259+01:00 INFO payment-service trace=c-4deef61a0ef969c1 direct debit mandate verified loan_id=LN526796534 mandate_id=MD5232948
+2026-03-10T02:37:13.297+01:00 INFO payment-service trace=c-4deef61a0ef969c1 payment instruction sent loan_id=LN526796534 amount_dkk=14546.11
+2026-03-10T02:44:00.919+01:00 INFO payment-scheduler trace=c-55fa839e74490cd8 instalment collection started loan_id=LN450528798 due_date=2026-03-14
+2026-03-10T02:44:00.984+01:00 INFO payment-service trace=c-55fa839e74490cd8 direct debit mandate verified loan_id=LN450528798 mandate_id=MD2853276
+2026-03-10T02:44:01.073+01:00 INFO payment-service trace=c-55fa839e74490cd8 payment instruction sent loan_id=LN450528798 amount_dkk=8493.80
+2026-03-10T02:44:01.131+01:00 INFO ledger-service trace=c-55fa839e74490cd8 ledger posting accepted loan_id=LN450528798 amount_dkk=8493.80 posting_id=PST-767ffc11f7
+2026-03-10T02:44:01.261+01:00 INFO notification-service trace=c-55fa839e74490cd8 payment receipt sent loan_id=LN450528798 channel=DIGITAL_POST
+2026-03-10T02:44:01.300+01:00 INFO payment-service trace=c-55fa839e74490cd8 payment settled loan_id=LN450528798 amount_dkk=8493.80
+2026-03-10T02:44:07.888+01:00 INFO payment-scheduler trace=c-df8b14e3d2458c72 instalment collection started loan_id=LN626595370 due_date=2026-03-22
+2026-03-10T02:44:07.924+01:00 INFO payment-service trace=c-df8b14e3d2458c72 direct debit mandate verified loan_id=LN626595370 mandate_id=MD2755729
+2026-03-10T02:44:08.010+01:00 INFO payment-service trace=c-df8b14e3d2458c72 payment instruction sent loan_id=LN626595370 amount_dkk=15754.83
+2026-03-10T02:55:18.678+01:00 INFO payment-scheduler trace=c-1b30389f4e382862 instalment collection started loan_id=LN285152517 due_date=2026-03-01
+2026-03-10T02:55:18.744+01:00 INFO payment-service trace=c-1b30389f4e382862 direct debit mandate verified loan_id=LN285152517 mandate_id=MD1908474
+2026-03-10T02:55:18.838+01:00 INFO payment-service trace=c-1b30389f4e382862 payment instruction sent loan_id=LN285152517 amount_dkk=9604.53
+2026-03-10T03:00:14.760+01:00 INFO payment-scheduler trace=c-eaeebe3c067ce56f instalment collection started loan_id=LN583772196 due_date=2026-03-09
+2026-03-10T03:00:14.788+01:00 INFO payment-service trace=c-eaeebe3c067ce56f direct debit mandate verified loan_id=LN583772196 mandate_id=MD8983903
+2026-03-10T03:00:14.918+01:00 INFO payment-service trace=c-eaeebe3c067ce56f payment instruction sent loan_id=LN583772196 amount_dkk=15506.05
+2026-03-10T03:00:15.012+01:00 INFO payment-service trace=c-eaeebe3c067ce56f payment instruction sent loan_id=LN583772196 amount_dkk=15506.05
+2026-03-10T03:00:15.112+01:00 INFO payment-service trace=c-eaeebe3c067ce56f payment instruction sent loan_id=LN583772196 amount_dkk=15506.05
+2026-03-10T03:00:15.190+01:00 INFO payment-service trace=c-eaeebe3c067ce56f payment instruction sent loan_id=LN583772196 amount_dkk=15506.05
+2026-03-10T03:00:15.223+01:00 INFO ledger-service trace=c-eaeebe3c067ce56f ledger posting accepted loan_id=LN583772196 amount_dkk=15506.05 posting_id=PST-f73d18a29d
+2026-03-10T03:00:15.239+01:00 INFO payment-service trace=c-eaeebe3c067ce56f payment settled loan_id=LN583772196 amount_dkk=15506.05
+2026-03-10T03:00:15.366+01:00 INFO notification-service trace=c-eaeebe3c067ce56f payment receipt sent loan_id=LN583772196 channel=DIGITAL_POST
+2026-03-10T03:10:54.541+01:00 INFO payment-scheduler trace=c-3b84a0e7641de020 instalment collection started loan_id=LN662019631 due_date=2026-03-13
+2026-03-10T03:10:54.623+01:00 INFO payment-service trace=c-3b84a0e7641de020 direct debit mandate verified loan_id=LN662019631 mandate_id=MD3685666
+2026-03-10T03:10:54.759+01:00 INFO payment-service trace=c-3b84a0e7641de020 payment instruction sent loan_id=LN662019631 amount_dkk=9629.79
+2026-03-10T03:20:26.747+01:00 INFO payment-scheduler trace=c-679d8d5022106c2f instalment collection started loan_id=LN467858695 due_date=2026-03-21
+2026-03-10T03:20:26.762+01:00 INFO payment-service trace=c-679d8d5022106c2f direct debit mandate verified loan_id=LN467858695 mandate_id=MD5545008
+2026-03-10T03:20:26.829+01:00 INFO payment-service trace=c-679d8d5022106c2f payment instruction sent loan_id=LN467858695 amount_dkk=9203.78
+2026-03-10T03:20:26.962+01:00 INFO payment-service trace=c-679d8d5022106c2f payment instruction sent loan_id=LN467858695 amount_dkk=9203.78
+2026-03-10T03:20:27.064+01:00 INFO payment-service trace=c-679d8d5022106c2f payment instruction sent loan_id=LN467858695 amount_dkk=9203.78
+2026-03-10T03:20:27.184+01:00 INFO payment-service trace=c-679d8d5022106c2f payment instruction sent loan_id=LN467858695 amount_dkk=9203.78
+2026-03-10T03:20:27.279+01:00 INFO payment-service trace=c-679d8d5022106c2f payment instruction sent loan_id=LN467858695 amount_dkk=9203.78
+2026-03-10T03:20:27.306+01:00 INFO ledger-service trace=c-679d8d5022106c2f ledger posting accepted loan_id=LN467858695 amount_dkk=9203.78 posting_id=PST-e7ea2ee979
+2026-03-10T03:20:27.328+01:00 INFO payment-service trace=c-679d8d5022106c2f payment settled loan_id=LN467858695 amount_dkk=9203.78
+2026-03-10T03:20:27.405+01:00 INFO notification-service trace=c-679d8d5022106c2f payment receipt sent loan_id=LN467858695 channel=DIGITAL_POST
+2026-03-10T03:21:43.701+01:00 INFO payment-scheduler trace=c-03cf3fbb5351f7ef instalment collection started loan_id=LN508074974 due_date=2026-03-15
+2026-03-10T03:21:43.826+01:00 INFO payment-service trace=c-03cf3fbb5351f7ef direct debit mandate verified loan_id=LN508074974 mandate_id=MD3308239
+2026-03-10T03:21:43.934+01:00 INFO payment-service trace=c-03cf3fbb5351f7ef payment instruction sent loan_id=LN508074974 amount_dkk=12950.31
+2026-03-10T03:21:56.077+01:00 INFO payment-scheduler trace=c-59828840767c8489 instalment collection started loan_id=LN154800632 due_date=2026-03-20
+2026-03-10T03:21:56.094+01:00 INFO payment-service trace=c-59828840767c8489 direct debit mandate verified loan_id=LN154800632 mandate_id=MD6215819
+2026-03-10T03:21:56.110+01:00 INFO payment-service trace=c-59828840767c8489 payment instruction sent loan_id=LN154800632 amount_dkk=2826.78
+2026-03-10T03:21:56.143+01:00 INFO payment-service trace=c-59828840767c8489 payment instruction sent loan_id=LN154800632 amount_dkk=2826.78
+2026-03-10T03:21:56.192+01:00 INFO payment-service trace=c-59828840767c8489 payment instruction sent loan_id=LN154800632 amount_dkk=2826.78
+2026-03-10T03:21:56.225+01:00 INFO payment-service trace=c-59828840767c8489 payment instruction sent loan_id=LN154800632 amount_dkk=2826.78
+2026-03-10T03:21:56.351+01:00 INFO payment-service trace=c-59828840767c8489 payment instruction sent loan_id=LN154800632 amount_dkk=2826.78
+2026-03-10T03:21:56.467+01:00 INFO ledger-service trace=c-59828840767c8489 ledger posting accepted loan_id=LN154800632 amount_dkk=2826.78 posting_id=PST-4b1d17bb2d
+2026-03-10T03:21:56.501+01:00 INFO payment-service trace=c-59828840767c8489 payment settled loan_id=LN154800632 amount_dkk=2826.78
+2026-03-10T03:21:56.507+01:00 INFO notification-service trace=c-59828840767c8489 payment receipt sent loan_id=LN154800632 channel=DIGITAL_POST
+2026-03-10T09:54:56.571+01:00 INFO portal-bff trace=c-ad873ca9f7972433 conversion quote requested loan_id=LN687404733 target_product=FLEX_1Y
+2026-03-10T09:54:56.643+01:00 INFO identity-service trace=c-ad873ca9f7972433 MitID session validated customer_id=C83659241
+2026-03-10T09:54:56.651+01:00 INFO pricing-service trace=c-ad873ca9f7972433 bond price fetched series=BND4.0-2053 price=90.806
+2026-03-10T09:54:56.725+01:00 INFO pricing-service trace=c-ad873ca9f7972433 conversion cost calculated loan_id=LN687404733 cost_dkk=73625.62
+2026-03-10T09:54:56.791+01:00 INFO quote-service trace=c-ad873ca9f7972433 conversion quote issued quote_id=Q34386723 loan_id=LN687404733
+2026-03-10T09:59:56.075+01:00 INFO portal-bff trace=c-4dcdd26431e01800 conversion quote requested loan_id=LN434664560 target_product=FLEX_1Y
+2026-03-10T09:59:56.144+01:00 INFO identity-service trace=c-4dcdd26431e01800 MitID session validated customer_id=C63548577
+2026-03-10T09:59:56.152+01:00 INFO pricing-service trace=c-4dcdd26431e01800 bond price fetched series=BND2.5-2056 price=93.489
+2026-03-10T09:59:56.172+01:00 INFO pricing-service trace=c-4dcdd26431e01800 conversion cost calculated loan_id=LN434664560 cost_dkk=23481.18
+2026-03-10T09:59:56.180+01:00 INFO quote-service trace=c-4dcdd26431e01800 conversion quote issued quote_id=Q97778680 loan_id=LN434664560
+2026-03-10T11:15:35.655+01:00 INFO offer-service trace=c-61642b4559402c60 offer accepted application_id=APP-2026-789528
+2026-03-10T11:15:35.670+01:00 INFO ledger-service trace=c-61642b4559402c60 funds reserved application_id=APP-2026-789528 amount_dkk=1865000
+2026-03-10T11:15:35.780+01:00 INFO payment-service trace=c-61642b4559402c60 payout instruction sent application_id=APP-2026-789528 amount_dkk=1865000
+2026-03-10T11:15:35.876+01:00 INFO ledger-service trace=c-61642b4559402c60 payout booked application_id=APP-2026-789528 posting_id=PST-834679abaa
+2026-03-10T11:15:35.920+01:00 INFO notification-service trace=c-61642b4559402c60 payout confirmation sent application_id=APP-2026-789528
+2026-03-10T11:45:28.013+01:00 INFO portal-bff trace=c-10d26f92cb940369 loan application submitted application_id=APP-2026-010056 customer_segment=RETAIL
+2026-03-10T11:45:28.084+01:00 INFO identity-service trace=c-10d26f92cb940369 MitID session validated customer_id=C07123011
+2026-03-10T11:45:28.206+01:00 INFO customer-service trace=c-10d26f92cb940369 KYC profile loaded customer_id=C07123011 risk_class=LOW
+2026-03-10T11:45:28.253+01:00 INFO valuation-service trace=c-10d26f92cb940369 property valuation requested property_id=P5426535 provider=valuta-ejd
+2026-03-10T11:45:28.538+01:00 INFO valuation-service trace=c-10d26f92cb940369 property valuation received property_id=P5426535 value_dkk=2580000 latency_ms=221
+2026-03-10T11:45:28.666+01:00 INFO credit-service trace=c-10d26f92cb940369 credit assessment completed application_id=APP-2026-010056 score=821 decision=APPROVED
+2026-03-10T11:45:28.743+01:00 INFO offer-service trace=c-10d26f92cb940369 loan offer generated application_id=APP-2026-010056 loan_type=FIXED_30Y principal_dkk=3355000
+2026-03-10T11:45:28.772+01:00 INFO document-service trace=c-10d26f92cb940369 offer document stored application_id=APP-2026-010056 doc_id=DOC-4c65ee3f
+2026-03-10T11:45:28.796+01:00 INFO portal-bff trace=c-10d26f92cb940369 application completed application_id=APP-2026-010056 status=OFFER_ISSUED
+2026-03-10T11:47:37.067+01:00 INFO offer-service trace=c-804682e9c24c4660 offer accepted application_id=APP-2026-993748
+2026-03-10T11:47:37.078+01:00 INFO ledger-service trace=c-804682e9c24c4660 funds reserved application_id=APP-2026-993748 amount_dkk=2815000
+2026-03-10T11:47:37.217+01:00 INFO payment-service trace=c-804682e9c24c4660 payout instruction sent application_id=APP-2026-993748 amount_dkk=2815000
+2026-03-10T11:47:37.257+01:00 INFO ledger-service trace=c-804682e9c24c4660 payout booked application_id=APP-2026-993748 posting_id=PST-ba40ae2df9
+2026-03-10T11:47:37.346+01:00 INFO notification-service trace=c-804682e9c24c4660 payout confirmation sent application_id=APP-2026-993748
+2026-03-10T11:56:58.358+01:00 INFO portal-bff trace=c-083f7c05a9ad7c21 loan application submitted application_id=APP-2026-082012 customer_segment=RETAIL
+2026-03-10T11:56:58.435+01:00 INFO identity-service trace=c-083f7c05a9ad7c21 MitID session validated customer_id=C07538124
+2026-03-10T11:56:58.520+01:00 INFO customer-service trace=c-083f7c05a9ad7c21 KYC profile loaded customer_id=C07538124 risk_class=LOW
+2026-03-10T11:56:58.650+01:00 INFO valuation-service trace=c-083f7c05a9ad7c21 property valuation requested property_id=P3768003 provider=bolig-vurdering
+2026-03-10T11:56:59.198+01:00 INFO valuation-service trace=c-083f7c05a9ad7c21 property valuation received property_id=P3768003 value_dkk=870000 latency_ms=510
+2026-03-10T11:56:59.325+01:00 INFO credit-service trace=c-083f7c05a9ad7c21 credit assessment completed application_id=APP-2026-082012 score=609 decision=APPROVED
+2026-03-10T11:56:59.402+01:00 INFO offer-service trace=c-083f7c05a9ad7c21 loan offer generated application_id=APP-2026-082012 loan_type=FIXED_30Y principal_dkk=840000
+2026-03-10T11:56:59.435+01:00 INFO document-service trace=c-083f7c05a9ad7c21 offer document stored application_id=APP-2026-082012 doc_id=DOC-9138d1f2
+2026-03-10T11:56:59.541+01:00 INFO portal-bff trace=c-083f7c05a9ad7c21 application completed application_id=APP-2026-082012 status=OFFER_ISSUED
+2026-03-11T02:20:32.500+01:00 INFO payment-scheduler trace=c-a38d4571d5e1bf17 instalment collection started loan_id=LN150552728 due_date=2026-03-16
+2026-03-11T02:20:32.618+01:00 INFO payment-service trace=c-a38d4571d5e1bf17 direct debit mandate verified loan_id=LN150552728 mandate_id=MD6018971
+2026-03-11T02:20:32.756+01:00 INFO payment-service trace=c-a38d4571d5e1bf17 payment instruction sent loan_id=LN150552728 amount_dkk=13289.26
+2026-03-11T02:20:32.891+01:00 INFO ledger-service trace=c-a38d4571d5e1bf17 ledger posting accepted loan_id=LN150552728 amount_dkk=13289.26 posting_id=PST-01cc51b7ed
+2026-03-11T02:20:33.007+01:00 INFO payment-service trace=c-a38d4571d5e1bf17 payment settled loan_id=LN150552728 amount_dkk=13289.26
+2026-03-11T02:20:33.061+01:00 INFO notification-service trace=c-a38d4571d5e1bf17 payment receipt sent loan_id=LN150552728 channel=DIGITAL_POST
+2026-03-11T12:19:38.572+01:00 INFO portal-bff trace=c-60bc75cf09bc23f7 conversion quote requested loan_id=LN618992055 target_product=FLEX_5Y
+2026-03-11T12:19:38.689+01:00 INFO identity-service trace=c-60bc75cf09bc23f7 MitID session validated customer_id=C95698285
+2026-03-11T12:19:38.706+01:00 INFO pricing-service trace=c-60bc75cf09bc23f7 bond price fetched series=BND2.5-2053 price=93.314
+2026-03-11T12:19:38.762+01:00 INFO pricing-service trace=c-60bc75cf09bc23f7 conversion cost calculated loan_id=LN618992055 cost_dkk=27075.71
+2026-03-11T12:19:38.901+01:00 INFO quote-service trace=c-60bc75cf09bc23f7 conversion quote issued quote_id=Q61422565 loan_id=LN618992055
+2026-03-11T13:54:49.496+01:00 INFO portal-bff trace=c-b8dba2c10b6f5205 loan application submitted application_id=APP-2026-432403 customer_segment=RETAIL
+2026-03-11T13:54:49.561+01:00 INFO identity-service trace=c-b8dba2c10b6f5205 MitID session validated customer_id=C11985955
+2026-03-11T13:54:49.690+01:00 INFO customer-service trace=c-b8dba2c10b6f5205 KYC profile loaded customer_id=C11985955 risk_class=LOW
+2026-03-11T13:54:49.824+01:00 INFO valuation-service trace=c-b8dba2c10b6f5205 property valuation requested property_id=P1110860 provider=valuta-ejd
+2026-03-11T13:54:50.392+01:00 INFO valuation-service trace=c-b8dba2c10b6f5205 property valuation received property_id=P1110860 value_dkk=3980000 latency_ms=541

@@ -1,0 +1,157 @@
+mortgage_application:
+  description: mortgage application
+  expected_steps:
+  - step: a1
+    service: portal-bff
+    level: INFO
+    what: application submitted
+    message: loan application submitted application_id={app} customer_segment={seg}
+  - step: a2
+    service: identity-service
+    level: INFO
+    what: MitID validation
+    message: MitID session validated customer_id={cust}
+  - step: a3
+    service: customer-service
+    level: INFO
+    what: KYC profile load
+    message: KYC profile loaded customer_id={cust} risk_class={risk}
+  - step: a4
+    service: valuation-service
+    level: INFO
+    what: property valuation request
+    message: property valuation requested property_id={prop} provider={provider}
+  - step: a5
+    service: valuation-service
+    level: INFO
+    what: property valuation
+    message: property valuation received property_id={prop} value_dkk={value} latency_ms={lat}
+  - step: a6
+    service: credit-service
+    level: INFO
+    what: credit assessment
+    message: credit assessment completed application_id={app} score={score} decision=APPROVED
+  - step: a7
+    service: offer-service
+    level: INFO
+    what: loan offer generation
+    message: loan offer generated application_id={app} loan_type={loan_type} principal_dkk={principal}
+  - step: a8
+    service: document-service
+    level: INFO
+    what: offer document storage
+    message: offer document stored application_id={app} doc_id={doc}
+  - step: a9
+    service: portal-bff
+    level: INFO
+    what: application completion
+    message: application completed application_id={app} status=OFFER_ISSUED
+  optional_harmless:
+    a2r:
+      service: identity-service
+      level: WARN
+      message: MitID token refresh attempt=1
+    a4r:
+      service: valuation-service
+      level: WARN
+      message: valuation provider slow, retrying property_id={prop} attempt=1
+    a45:
+      service: valuation-service
+      level: INFO
+      message: property valuation served from cache property_id={prop} value_dkk={value}
+instalment_collection:
+  description: instalment collection
+  expected_steps:
+  - step: b1
+    service: payment-scheduler
+    level: INFO
+    what: collection start
+    message: instalment collection started loan_id={loan} due_date={due}
+  - step: b2
+    service: payment-service
+    level: INFO
+    what: direct debit mandate check
+    message: direct debit mandate verified loan_id={loan} mandate_id={mandate}
+  - step: b3
+    service: payment-service
+    level: INFO
+    what: payment instruction
+    message: payment instruction sent loan_id={loan} amount_dkk={amount}
+  - step: b4
+    service: ledger-service
+    level: INFO
+    what: ledger posting
+    message: ledger posting accepted loan_id={loan} amount_dkk={amount} posting_id={post}
+  - step: b5
+    service: payment-service
+    level: INFO
+    what: payment settlement
+    message: payment settled loan_id={loan} amount_dkk={amount}
+  - step: b6
+    service: notification-service
+    level: INFO
+    what: payment receipt
+    message: payment receipt sent loan_id={loan} channel={channel}
+  optional_harmless:
+    b3r:
+      service: ledger-service
+      level: WARN
+      message: ledger posting retried loan_id={loan} attempt=1
+loan_conversion_quote:
+  description: loan conversion quote
+  expected_steps:
+  - step: c1
+    service: portal-bff
+    level: INFO
+    what: quote request
+    message: conversion quote requested loan_id={loan} target_product={product}
+  - step: c2
+    service: identity-service
+    level: INFO
+    what: MitID validation
+    message: MitID session validated customer_id={cust}
+  - step: c3
+    service: pricing-service
+    level: INFO
+    what: bond price fetch
+    message: bond price fetched series={series} price={price}
+  - step: c4
+    service: pricing-service
+    level: INFO
+    what: conversion cost calculation
+    message: conversion cost calculated loan_id={loan} cost_dkk={cost}
+  - step: c5
+    service: quote-service
+    level: INFO
+    what: quote issue
+    message: conversion quote issued quote_id={quote} loan_id={loan}
+  optional_harmless: {}
+disbursement:
+  description: disbursement
+  expected_steps:
+  - step: d1
+    service: offer-service
+    level: INFO
+    what: offer acceptance
+    message: offer accepted application_id={app}
+  - step: d2
+    service: ledger-service
+    level: INFO
+    what: funds reservation
+    message: funds reserved application_id={app} amount_dkk={principal}
+  - step: d3
+    service: payment-service
+    level: INFO
+    what: payout instruction
+    message: payout instruction sent application_id={app} amount_dkk={principal}
+  - step: d4
+    service: ledger-service
+    level: INFO
+    what: payout booking
+    message: payout booked application_id={app} posting_id={post}
+  - step: d5
+    service: notification-service
+    level: INFO
+    what: payout confirmation
+    message: payout confirmation sent application_id={app}
+  optional_harmless: {}

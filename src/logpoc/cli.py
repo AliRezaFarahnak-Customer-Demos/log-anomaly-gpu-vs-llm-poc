@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 DEFAULT_DATA = "data/synthetic/v1"
+DEFAULT_PROD_LIKE = "data/synthetic/prod_like"
 
 
 def _data_arg(p: argparse.ArgumentParser) -> None:
@@ -24,6 +25,17 @@ def _cmd_generate(a: argparse.Namespace) -> int:
     manifest = generate_all(Path(a.config), Path(a.out))
     for name, c in manifest["counts"].items():
         print(f"{name}: {c['traces']} traces ({c['normal']} normal, {c['anomalous']} anomalous)")
+    print(f"wrote {a.out}")
+    return 0
+
+
+def _cmd_generate_prod_like(a: argparse.Namespace) -> int:
+    from logpoc.data.generate_prod_like import generate_all
+
+    m = generate_all(Path(a.config), Path(a.out))
+    print(f"{m['days']} days, {m['lines']} lines, {m['traces']} traces")
+    print(f"{m['anomalous_traces']} anomalous traces")
+    print(f"{m['templates']} Drain templates, labelled set: {m['labelled']}")
     print(f"wrote {a.out}")
     return 0
 
@@ -102,6 +114,13 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--config", default="configs/data_v1.yaml")
     g.add_argument("--out", default=DEFAULT_DATA)
     g.set_defaults(func=_cmd_generate)
+
+    gp = sub.add_parser(
+        "generate-prod-like", help="generate the production-shaped synthetic extract (10 days)"
+    )
+    gp.add_argument("--config", default="configs/data_prod_like.yaml")
+    gp.add_argument("--out", default=DEFAULT_PROD_LIKE)
+    gp.set_defaults(func=_cmd_generate_prod_like)
 
     pr = sub.add_parser("prepare", help="parse raw logs into template sequences")
     _data_arg(pr)

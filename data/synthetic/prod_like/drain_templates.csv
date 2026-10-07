@@ -1,0 +1,37 @@
+template_id,count,template
+T001,2880,api-gateway INFO health probe ok status=<*> latency_ms=<*>
+T002,1440,payment-scheduler INFO scheduler heartbeat lag_ms=<*>
+T003,240,config-service INFO configuration refreshed version=<*>
+T004,200,valuation-service INFO jvm gc pause pause_ms=<*>
+T005,1873,payment-scheduler INFO instalment collection started loan_id=<*> due_date=<*>
+T006,1873,payment-service INFO direct debit mandate verified loan_id=<*> mandate_id=<*>
+T007,1985,payment-service INFO payment instruction sent loan_id=<*> amount_dkk=<*>
+T008,1839,ledger-service INFO ledger posting accepted loan_id=<*> amount_dkk=<*> posting_id=<*>
+T009,1841,payment-service INFO payment settled loan_id=<*> amount_dkk=<*>
+T010,1841,notification-service INFO payment receipt sent loan_id=<*> channel=<*>
+T011,51,ledger-service WARN ledger posting retried loan_id=<*> attempt=<*>
+T012,1403,portal-bff INFO loan application submitted application_id=<*> customer_segment=<*>
+T013,2518,identity-service INFO MitID session validated customer_id=<*>
+T014,1403,customer-service INFO KYC profile loaded customer_id=<*> risk_class=<*>
+T015,1043,valuation-service INFO property valuation requested property_id=<*> provider=<*>
+T016,1037,valuation-service INFO property valuation received property_id=<*> value_dkk=<*> latency_ms=<*>
+T017,1394,credit-service INFO credit assessment completed application_id=<*> score=<*> decision=<*>
+T018,1399,offer-service INFO loan offer generated application_id=<*> loan_type=<*> principal_dkk=<*>
+T019,1399,document-service INFO offer document stored application_id=<*> doc_id=<*>
+T020,1399,portal-bff INFO application completed application_id=<*> status=<*>
+T021,1115,portal-bff INFO conversion quote requested loan_id=<*> target_product=<*>
+T022,1120,pricing-service INFO bond price fetched series=<*> price=<*>
+T023,1115,pricing-service INFO conversion cost calculated loan_id=<*> cost_dkk=<*>
+T024,1115,quote-service INFO conversion quote issued quote_id=<*> loan_id=<*>
+T025,42,identity-service WARN MitID token refresh attempt=<*>
+T026,360,valuation-service INFO property valuation served from cache property_id=<*> value_dkk=<*>
+T027,242,offer-service INFO offer accepted application_id=<*>
+T028,242,ledger-service INFO funds reserved application_id=<*> amount_dkk=<*>
+T029,242,payment-service INFO payout instruction sent application_id=<*> amount_dkk=<*>
+T030,242,ledger-service INFO payout booked application_id=<*> posting_id=<*>
+T031,242,notification-service INFO payout confirmation sent application_id=<*>
+T032,2,ledger-service ERROR ledger posting rejected loan_id=<*> reason=<*>
+T033,7,valuation-service ERROR property valuation failed property_id=<*> provider=<*> reason=<*> after_ms=<*>
+T034,56,valuation-service WARN valuation provider latency p95 high p95_ms=<*>
+T035,12,"valuation-service WARN valuation provider slow, retrying property_id=<*> attempt=<*>"
+T036,86,ledger-service WARN posting queue depth high depth=<*>

@@ -21,6 +21,13 @@ from logpoc.data.generate import SPLIT_ORDER
 
 LINE_RE = re.compile(r"^(\S+) (\w+) (\S+) trace=(\S+) (.*)$")
 MASKED_KEYS = ["order_id", "refund_id", "user", "client", "items", "amount", "currency", "key"]
+# Values of the production-shaped dataset (data/synthetic/prod_like). None of them occur in v1.
+MASKED_KEYS += [
+    "application_id", "customer_segment", "customer_id", "risk_class", "property_id", "provider",
+    "value_dkk", "latency_ms", "score", "loan_type", "principal_dkk", "doc_id", "loan_id",
+    "due_date", "mandate_id", "amount_dkk", "posting_id", "channel", "target_product", "series",
+    "price", "cost_dkk", "quote_id",
+]  # fmt: skip
 TRACE_START = "TRACE START"
 TRACE_END = "TRACE END"
 
