@@ -8,6 +8,8 @@ tests
 infra
 **/__pycache__
 **/*.pyc
+# customer documents must not reach the registry build context
+LogAnomaly_PoC_Overview.md
 # the job only needs the split files, not raw daily logs, truth files or derived data
 data/*/prepared
 data/*/*/prepared

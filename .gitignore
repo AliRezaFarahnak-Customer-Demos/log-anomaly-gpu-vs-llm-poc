@@ -31,8 +31,9 @@ infra/env.local
 # personal prep notes, never versioned
 notes/
 
-# customer extracts never go into git
+# customer extracts and documents never go into git
 data/customer/
+LogAnomaly_PoC_Overview.md
 
 # derived by "logpoc prepare"
 data/synthetic/*/prepared/
