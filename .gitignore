@@ -29,3 +29,6 @@ infra/env.local
 
 # personal prep notes, never versioned
 notes/
+
+# derived by "logpoc prepare"
+data/synthetic/v1/prepared/

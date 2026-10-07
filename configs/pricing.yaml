@@ -1,0 +1,5 @@
+# Prices are placeholders. Fill them in from your own price list. Currency is up to you,
+# use the same one everywhere. Nothing here is a real price.
+llm_input_per_1m_tokens: null
+llm_output_per_1m_tokens: null
+gpu_per_hour: null

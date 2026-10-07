@@ -28,13 +28,6 @@ def read_labels(path: Path) -> list[dict]:
         return list(csv.DictReader(f))
 
 
-@pytest.fixture(scope="module")
-def data_dir(tmp_path_factory) -> Path:
-    out = tmp_path_factory.mktemp("v1")
-    generate_all(CONFIG, out)
-    return out
-
-
 def test_deterministic(data_dir, tmp_path):
     generate_all(CONFIG, tmp_path)
     import json
