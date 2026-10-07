@@ -9,6 +9,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from types import SimpleNamespace
 
+import yaml
+
 from logpoc.common.pricing import llm_cost_per_1000, load_pricing
 from logpoc.common.report import write_eval
 from logpoc.common.runs import (
@@ -23,54 +25,85 @@ from logpoc.common.runs import (
 from logpoc.data.prepare import data_manifest_hash, load_labels, load_sequences
 
 TYPES = ["none", "visible_error", "silent_skip", "wrong_order", "truncated", "retry_storm"]
-# The model fills the properties in this order, so the explanation (its reasoning) comes first.
-SCHEMA = {
-    "type": "object",
-    "properties": {
-        "explanation": {
+
+
+def build_schema(n_lines: int, flow_names: list[str] | None = None) -> dict:
+    """Strict response schema for one trace. Enums keep every field inside its valid values.
+
+    The model fills the properties in this order: flow and step check first, so even without
+    reasoning tokens it matches the steps before it decides.
+    """
+    props: dict[str, dict] = {}
+    if flow_names:
+        props["flow"] = {
             "type": "string",
-            "description": "One sentence for an operator, written before the other fields. Name "
-            "the flow and the step that failed, is missing, is out of order or repeats, with its "
-            "line number. For a normal trace, name the flow and say it completed.",
-        },
-        "verdict": {
-            "type": "string",
-            "enum": ["normal", "anomalous"],
-            "description": "normal: one complete run of one expected flow. Every expected step "
-            "occurs once, in the expected order, up to the flow's last step, and no line is an "
-            "ERROR. Lines listed as optional_harmless are normal wherever they appear, and one "
-            "may stand in for expected steps that do the same work, such as a cached result "
-            "instead of a request and a response. WARN lines, slow timings and a single retry "
-            "are normal when the flow still completes. anomalous: anything else.",
-        },
-        "anomaly_type": {
-            "type": "string",
-            "enum": TYPES,
-            "description": "The kind of the first deviation. none: the verdict is normal. "
-            "visible_error: a line has level ERROR; choose this whenever an ERROR line is "
-            "present, even if later steps look fine. silent_skip: an expected step is missing "
-            "while later steps still occur, and no line is an ERROR. wrong_order: every "
-            "expected step is present but at least two are in the wrong order. truncated: the "
-            "trace stops before the flow's last step and no line is an ERROR. retry_storm: one "
-            "expected step is logged three or more times in a row instead of once.",
-        },
-        "first_deviation_line": {
-            "type": ["integer", "null"],
-            "description": "0-based number of the first line that breaks the expected flow, "
-            "null when the verdict is normal. visible_error: the ERROR line. silent_skip: the "
-            "line that appears where the missing step should be. wrong_order: the first line "
-            "that appears too early. retry_storm: the first repeated copy of the step (its "
-            "second occurrence). truncated: the number of lines in the trace, where the next "
-            "expected step should have appeared.",
-        },
-    },
-    "required": ["explanation", "verdict", "anomaly_type", "first_deviation_line"],
-    "additionalProperties": False,
-}
+            "enum": [*flow_names, "unknown"],
+            "description": "The expected flow this trace runs, recognised from its first line. "
+            "unknown only when no expected flow starts like this trace.",
+        }
+    props["step_check"] = {
+        "type": "string",
+        "description": "Match every expected step of the flow, in order, to the number of the "
+        "line where it occurs, as 'step: line' pairs separated by commas. Write 'missing' for "
+        "a step with no line, 'ERROR n' for a step that failed on line n, and every line number "
+        "of a step that occurs more than once. A line listed as optional_harmless can cover "
+        "expected steps that do the same work, for example a cached result covers a request "
+        "and its response: give those steps that line number. Match steps, never count lines.",
+    }
+    props["explanation"] = {
+        "type": "string",
+        "description": "One sentence for an operator, based on step_check: name the flow and "
+        "the first step that failed, is missing, is out of order or repeats, with its line "
+        "number. For a normal trace, name the flow and say it completed.",
+    }
+    props["verdict"] = {
+        "type": "string",
+        "enum": ["normal", "anomalous"],
+        "description": "normal only when step_check finds every expected step exactly once, "
+        "in the expected order, up to the flow's last step, and no line is an ERROR. Lines "
+        "listed as optional_harmless are normal wherever they appear: WARN lines, slow "
+        "timings, a single retry and a cached result do not make a trace anomalous. "
+        "anomalous: anything else, also when the trace ends with the flow's last step.",
+    }
+    props["anomaly_type"] = {
+        "type": "string",
+        "enum": TYPES,
+        "description": "The kind of the first deviation in step_check. none: the verdict is "
+        "normal. visible_error: a line has level ERROR; choose this whenever an ERROR line is "
+        "present, even if later steps look fine. silent_skip: an expected step is missing "
+        "while a later step still occurs, and no line is an ERROR. wrong_order: every "
+        "expected step is present but at least two are in the wrong order. truncated: the "
+        "trace stops before the flow's last step and no line is an ERROR. retry_storm: one "
+        "expected step is logged three or more times in a row instead of once.",
+    }
+    props["first_deviation_line"] = {
+        "type": ["integer", "null"],
+        "enum": [*range(n_lines + 1), None],
+        "description": "0-based number of the first line that breaks the expected flow, null "
+        "when the verdict is normal. visible_error: the ERROR line. silent_skip: the line that "
+        "appears where the missing step should be. wrong_order: the first line that appears "
+        "too early. retry_storm: the first repeated copy of the step (its second occurrence). "
+        f"truncated: {n_lines}, the number of lines, where the next step should have appeared.",
+    }
+    return {
+        "type": "object",
+        "properties": props,
+        "required": list(props),
+        "additionalProperties": False,
+    }
+
+
 SYSTEM = """You check one trace from production application logs: all log lines with the same \
-correlation id, in time order. Lines are log templates where <*> is a masked value. Decide \
-whether the trace is one complete, correct run of a business flow, and fill in every response \
-field exactly as its description defines."""
+correlation id, in time order. Lines are log templates where <*> is a masked value, each \
+prefixed with its 0-based line number. Fill in the response fields in order, exactly as their \
+descriptions define:
+1. flow: the expected flow, recognised from the first line.
+2. step_check: every expected step of that flow matched to a line, in order.
+3. explanation, verdict, anomaly_type, first_deviation_line: decided from step_check and from \
+any ERROR line.
+Never decide from the number of lines or from the last line alone. Optional harmless lines add \
+lines, a cached result can replace two steps, and a trace that ends with the flow's last step \
+can still miss a step in the middle."""
 
 
 def build_messages(lines: list[str], flows: str | None) -> list[dict]:
@@ -116,18 +149,24 @@ class FakeClient:
 
 
 def classify_one(
-    client, model: str, lines: list[str], flows: str | None, effort: str | None = None
+    client,
+    model: str,
+    lines: list[str],
+    flows: str | None,
+    effort: str | None = None,
+    flow_names: list[str] | None = None,
 ) -> tuple[dict, int, int]:
     # effort None keeps the model's default reasoning level
     extra = {"reasoning_effort": effort} if effort else {}
+    schema = build_schema(len(lines), flow_names)
     resp = client.chat.completions.create(
         model=model,
         messages=build_messages(lines, flows),
-        # the answer is ~100 tokens; the cap also stops the rate limiter reserving the model maximum
+        # the answer is ~200 tokens; the cap also stops the rate limiter reserving the model maximum
         max_completion_tokens=1000,
         response_format={
             "type": "json_schema",
-            "json_schema": {"name": "verdict", "strict": True, "schema": SCHEMA},
+            "json_schema": {"name": "verdict", "strict": True, "schema": schema},
         },
         **extra,
     )
@@ -153,6 +192,7 @@ def run(
     model = "offline-fake" if dry_run else os.environ.get("LLM_DEPLOYMENT", "gpt-5.6-luna")
     effort = os.environ.get("LLM_REASONING_EFFORT") or None
     flows = (data_dir / "flows.yaml").read_text() if context == "expected-flow" else None
+    flow_names = list(yaml.safe_load(flows)) if flows else None
     seqs = load_sequences(data_dir, split)[:limit]
     labels = load_labels(data_dir, split)
     client = client or (FakeClient() if dry_run else make_client())
@@ -174,10 +214,12 @@ def run(
         versions=library_versions(),
         start_time=utc_now(),
     )
+
+    def classify(s: dict) -> tuple[dict, int, int]:
+        return classify_one(client, model, s["lines"], flows, effort, flow_names)
+
     with ThreadPoolExecutor(concurrency) as pool:
-        results = list(
-            pool.map(lambda s: classify_one(client, model, s["lines"], flows, effort), seqs)
-        )
+        results = list(pool.map(classify, seqs))
 
     records = []
     with (rdir / "answers.jsonl").open("w", encoding="utf-8", newline="\n") as f:

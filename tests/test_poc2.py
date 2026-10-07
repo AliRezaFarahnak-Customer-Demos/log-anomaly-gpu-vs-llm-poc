@@ -25,10 +25,15 @@ def test_expected_flow_goes_into_the_system_prompt():
     assert user["content"] == "0: a\n1: b"
 
 
-def test_every_schema_property_is_described_and_required():
-    props = classify.SCHEMA["properties"]
+def test_schema_is_described_required_and_bounded():
+    schema = classify.build_schema(3, ["mortgage", "payout"])
+    props = schema["properties"]
+    assert list(props)[:2] == ["flow", "step_check"]
     assert all(p.get("description") for p in props.values())
-    assert classify.SCHEMA["required"] == list(props)
+    assert schema["required"] == list(props)
+    assert props["flow"]["enum"] == ["mortgage", "payout", "unknown"]
+    assert props["first_deviation_line"]["enum"] == [0, 1, 2, 3, None]
+    assert "flow" not in classify.build_schema(3)["properties"]
 
 
 def test_save_result_from_job_log_line(ml_root, monkeypatch):
