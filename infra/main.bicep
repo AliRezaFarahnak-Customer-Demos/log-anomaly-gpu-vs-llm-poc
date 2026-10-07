@@ -12,8 +12,8 @@ param gpuProfiles array = [{ name: 'gpu-a100', type: 'Consumption-GPU-NC24-A100'
 
 @description('LLM deployments, Data Zone Standard; capacity is in thousands of tokens per minute')
 param llmDeployments array = [
-  { name: 'gpt-5.6-luna', version: '2026-07-09', capacity: 300 }
-  { name: 'gpt-6-luna', version: '2026-09-22', capacity: 300 }
+  { name: 'gpt-5.6-luna', version: '2026-07-09', capacity: 333 }
+  { name: 'gpt-6-luna', version: '2026-09-22', capacity: 333 }
 ]
 
 var uniq = uniqueString(resourceGroup().id)
