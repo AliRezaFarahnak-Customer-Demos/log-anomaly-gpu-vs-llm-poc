@@ -40,6 +40,7 @@ flowchart LR
 ```
 
 - No training, no GPU: the flow description is the only domain input
+- Structured Outputs: strict JSON schema with a precise description per field, see `SCHEMA` in `src/logpoc/poc2_llm/classify.py`
 - EU Data Zone deployment, Entra ID only
 
 ## Results (synthetic rehearsal)
@@ -49,25 +50,26 @@ xychart-beta
     title "F1 on the 80 labelled traces"
     x-axis ["Keyword grep", "PoC 1 GPU", "PoC 2 LLM"]
     y-axis "F1" 0 --> 1
-    bar [0.38, 0.94, 0.98]
+    bar [0.38, 0.94, 1.0]
 ```
 
 | | Keyword grep | PoC 1 Llama 2 7B, A100 | PoC 2 gpt-5.6-luna |
 |---|---|---|---|
-| Precision | 1.00 | 0.88 | 0.97 |
+| Precision | 1.00 | 0.88 | 1.00 |
 | Recall | 0.23 | 1.00 | 1.00 |
-| F1 | 0.38 | 0.94 | 0.98 |
-| False alarms (of 50 normal) | 0 | 4 | 1 |
+| F1 | 0.38 | 0.94 | 1.00 |
+| False alarms (of 50 normal) | 0 | 4 | 0 |
 | Silent breaks caught (of 23) | 0 | 23 | 23 |
-| Time | < 1 s | 13 min job: 8 min training, 2 s scoring | 25 s for 80 traces |
-| Cost, Azure list price | 0 | $0.34 training once, then $0.02 per 1,000 traces | $0.44 per 1,000 traces |
+| Time | < 1 s | 13 min job: 8 min training, 2 s scoring | 28 s for 80 traces |
+| Cost, Azure list price | 0 | $0.34 training once, then $0.02 per 1,000 traces | $0.52 per 1,000 traces |
 
 - Both PoCs caught all 30 anomalous traces, including the 23 silent breaks
 - PoC 1: 4 false alarms; 4 harmless test traces contain a retry line that never occurred in training
-- PoC 2: 1 false alarm, a cache path the flow description did not explain
-- Per trace PoC 1 is about 26 times cheaper once trained, but it needs a GPU job and retraining whenever the logs change
+- PoC 2: right anomaly type and first bad line for all 30 after describing every schema field (before: 1 false alarm, 1 wrong type, F1 0.98)
+- PoC 2 was tuned on these 80 traces: confirm on the customer's own labelled set
+- Per trace PoC 1 is about 30 times cheaper once trained, but it needs a GPU job and retraining whenever the logs change
 - Keyword search only sees visible errors: 23 of the 30 anomalous traces never log an ERROR
-- PoC 1 run record: git `b43f546`, image `b43f546`, Llama 2 commit `8efe6c9`, data hash `7f7c7aa4`
+- Run records: PoC 1 git `b43f546`, image `b43f546`, Llama 2 commit `8efe6c9`; PoC 2 git `6326680`; data hash `7f7c7aa4` for both
 
 ## Azure ML vs the two PoCs
 
