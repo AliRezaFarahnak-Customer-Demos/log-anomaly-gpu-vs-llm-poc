@@ -23,25 +23,54 @@ from logpoc.common.runs import (
 from logpoc.data.prepare import data_manifest_hash, load_labels, load_sequences
 
 TYPES = ["none", "visible_error", "silent_skip", "wrong_order", "truncated", "retry_storm"]
+# The model fills the properties in this order, so the explanation (its reasoning) comes first.
 SCHEMA = {
     "type": "object",
     "properties": {
-        "verdict": {"type": "string", "enum": ["normal", "anomalous"]},
-        "anomaly_type": {"type": "string", "enum": TYPES},
-        "first_deviation_line": {"type": ["integer", "null"]},
-        "explanation": {"type": "string"},
+        "explanation": {
+            "type": "string",
+            "description": "One sentence for an operator, written before the other fields. Name "
+            "the flow and the step that failed, is missing, is out of order or repeats, with its "
+            "line number. For a normal trace, name the flow and say it completed.",
+        },
+        "verdict": {
+            "type": "string",
+            "enum": ["normal", "anomalous"],
+            "description": "normal: one complete run of one expected flow. Every expected step "
+            "occurs once, in the expected order, up to the flow's last step, and no line is an "
+            "ERROR. Lines listed as optional_harmless are normal wherever they appear, and one "
+            "may stand in for expected steps that do the same work, such as a cached result "
+            "instead of a request and a response. WARN lines, slow timings and a single retry "
+            "are normal when the flow still completes. anomalous: anything else.",
+        },
+        "anomaly_type": {
+            "type": "string",
+            "enum": TYPES,
+            "description": "The kind of the first deviation. none: the verdict is normal. "
+            "visible_error: a line has level ERROR; choose this whenever an ERROR line is "
+            "present, even if later steps look fine. silent_skip: an expected step is missing "
+            "while later steps still occur, and no line is an ERROR. wrong_order: every "
+            "expected step is present but at least two are in the wrong order. truncated: the "
+            "trace stops before the flow's last step and no line is an ERROR. retry_storm: one "
+            "expected step is logged three or more times in a row instead of once.",
+        },
+        "first_deviation_line": {
+            "type": ["integer", "null"],
+            "description": "0-based number of the first line that breaks the expected flow, "
+            "null when the verdict is normal. visible_error: the ERROR line. silent_skip: the "
+            "line that appears where the missing step should be. wrong_order: the first line "
+            "that appears too early. retry_storm: the first repeated copy of the step (its "
+            "second occurrence). truncated: the number of lines in the trace, where the next "
+            "expected step should have appeared.",
+        },
     },
-    "required": ["verdict", "anomaly_type", "first_deviation_line", "explanation"],
+    "required": ["explanation", "verdict", "anomaly_type", "first_deviation_line"],
     "additionalProperties": False,
 }
 SYSTEM = """You check one trace from production application logs: all log lines with the same \
-correlation id, in time order. Lines are log templates where <*> is a masked value.
-
-Answer "anomalous" if the trace is not one complete, correct run of a business flow: an error, \
-a missing step, steps out of order, a flow that stops early, or a step repeated many times. \
-Otherwise answer "normal". first_deviation_line is the 0-based number of the first line that \
-breaks the expected flow, or the number of lines when the flow just stops; null when normal. \
-Explain in one sentence."""
+correlation id, in time order. Lines are log templates where <*> is a masked value. Decide \
+whether the trace is one complete, correct run of a business flow, and fill in every response \
+field exactly as its description defines."""
 
 
 def build_messages(lines: list[str], flows: str | None) -> list[dict]:

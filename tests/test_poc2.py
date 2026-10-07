@@ -25,6 +25,12 @@ def test_expected_flow_goes_into_the_system_prompt():
     assert user["content"] == "0: a\n1: b"
 
 
+def test_every_schema_property_is_described_and_required():
+    props = classify.SCHEMA["properties"]
+    assert all(p.get("description") for p in props.values())
+    assert classify.SCHEMA["required"] == list(props)
+
+
 def test_save_result_from_job_log_line(ml_root, monkeypatch):
     files = {"meta.json": {"run_id": "gpu1"}, "eval/metrics.json": {"method": "poc1-gpu"}}
     monkeypatch.setattr("sys.stdin", io.StringIO("noise\nRESULT " + json.dumps(files) + "\n"))
