@@ -191,8 +191,9 @@ def run(
         raise SystemExit("few-shot context and --only-flagged-by are not implemented")
     t0 = time.time()
     data_dir = Path(data_dir)
-    model = "offline-fake" if dry_run else os.environ.get("LLM_DEPLOYMENT", "gpt-5.6-luna")
-    effort = os.environ.get("LLM_REASONING_EFFORT") or None
+    model = "offline-fake" if dry_run else os.environ.get("LLM_DEPLOYMENT", "gpt-6-luna")
+    # reasoning "none" was as accurate as "low" with this schema, and cheaper; empty = model default
+    effort = os.environ.get("LLM_REASONING_EFFORT", "none") or None
     flows = (data_dir / "flows.yaml").read_text() if context == "expected-flow" else None
     flow_names = list(yaml.safe_load(flows)) if flows else None
     seqs = load_sequences(data_dir, split)[:limit]

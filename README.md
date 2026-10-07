@@ -35,12 +35,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    trace["Trace lines"] --> llm["gpt-5.6-luna on Foundry<br/>prompt + expected flows"]
-    llm --> json["JSON: verdict, type,<br/>first bad line, explanation"]
+    trace["Trace lines"] --> llm["gpt-6-luna on Foundry<br/>reasoning none<br/>prompt + expected flows"]
+    llm --> json["JSON: flow, step check, explanation,<br/>verdict, type, first bad line"]
 ```
 
 - No training, no GPU: the flow description is the only domain input
-- Structured Outputs: strict JSON schema with a precise description per field, see `SCHEMA` in `src/logpoc/poc2_llm/classify.py`
+- Structured Outputs: strict JSON schema built per trace by `build_schema` in `src/logpoc/poc2_llm/classify.py`; enums keep flow, verdict, type and line inside valid values
+- The model first matches every expected step to a line (`step_check`), so it needs no reasoning tokens
 - EU Data Zone deployment, Entra ID only
 
 ## Results (synthetic rehearsal)
@@ -53,34 +54,41 @@ xychart-beta
     bar [0.38, 0.94, 1.0]
 ```
 
-| | Keyword grep | PoC 1 Llama 2 7B, A100 | PoC 2 gpt-5.6-luna |
+| | Keyword grep | PoC 1 Llama 2 7B, A100 | PoC 2 gpt-6-luna, reasoning none |
 |---|---|---|---|
 | Precision | 1.00 | 0.88 | 1.00 |
 | Recall | 0.23 | 1.00 | 1.00 |
 | F1 | 0.38 | 0.94 | 1.00 |
 | False alarms (of 50 normal) | 0 | 4 | 0 |
 | Silent breaks caught (of 23) | 0 | 23 | 23 |
-| Time | < 1 s | 13 min job: 8 min training, 2 s scoring | 28 s for 80 traces |
-| Cost, Azure list price | 0 | $0.34 training once, then $0.02 per 1,000 traces | $0.52 per 1,000 traces |
+| Time | < 1 s | 13 min job: 8 min training, 2 s scoring | 8 s for 80 traces, 20 parallel calls |
+| Cost, Azure list price | 0 | $0.34 training once, then $0.02 per 1,000 traces | $0.32 per 1,000 traces, $0.08–0.10 with prompt caching |
 
 - Both PoCs caught all 30 anomalous traces, including the 23 silent breaks
 - PoC 1: 4 false alarms; 4 harmless test traces contain a retry line that never occurred in training
-- PoC 2: right anomaly type and first bad line for all 30 after describing every schema field (before: 1 false alarm, 1 wrong type, F1 0.98)
+- PoC 2: 5 of 5 runs perfect, with the right anomaly type and first bad line for all 30
 - PoC 2 was tuned on these 80 traces: confirm on the customer's own labelled set
-- Per trace PoC 1 is about 30 times cheaper once trained, but it needs a GPU job and retraining whenever the logs change
+- Per trace PoC 1 is cheaper once trained, but it needs a GPU job and retraining whenever the logs change
 - Keyword search only sees visible errors: 23 of the 30 anomalous traces never log an ERROR
-- Run records: PoC 1 git `b43f546`, image `b43f546`, Llama 2 commit `8efe6c9`; PoC 2 git `6326680`; data hash `7f7c7aa4` for both
+- Run records: PoC 1 git `b43f546`, image `b43f546`, Llama 2 commit `8efe6c9`; PoC 2 git `20a4596`; data hash `7f7c7aa4` for both
 
-**LLM variants** (same 80 traces, all 80 calls in parallel, 333K tokens per minute per deployment, git `bdcf254`)
+**LLM experiments** (same 80 traces, 20 parallel calls)
 
-| Model, reasoning | F1 | Wrong verdicts | Output tokens | Time | Cost per 1,000 traces |
-|---|---|---|---|---|---|
-| gpt-5.6-luna, default | 1.00 | 0 | 6,086 | 28 s (4 threads) | $0.52 |
-| gpt-5.6-luna, none | 0.98 | 1 missed silent skip | 3,361 | 7 s | $0.47 |
-| gpt-6-luna, default | 1.00 | 0 | 7,291 | 8 s | $0.28 |
-| gpt-6-luna, none | 0.98 | 1 false alarm | 3,441 | 7 s | $0.25 |
+| Schema | Model, reasoning | Perfect runs | Cost per 1,000 traces, no cache |
+|---|---|---|---|
+| 4 fields | gpt-5.6-luna, default | 1 of 1 | $0.52 |
+| 4 fields | gpt-5.6-luna, none | 0 of 1 | $0.47 |
+| 4 fields | gpt-6-luna, default | 1 of 1 | $0.28 |
+| 4 fields | gpt-6-luna, low | 3 of 3 | $0.27 |
+| 4 fields | gpt-6-luna, none | 2 of 6 | $0.25 |
+| 6 fields: flow, step_check, enums | gpt-6-luna, low | 3 of 3 | $0.34 |
+| **6 fields: flow, step_check, enums** | **gpt-6-luna, none** | **5 of 5** | **$0.32** |
 
-- gpt-6-luna is about half the price per token; input is about 80% of the cost, so reasoning `none` saves little and costs accuracy
+- Prices: Azure Retail Prices API, EU Data Zone, per 1M tokens: gpt-6-luna $0.12 input, $0.012 cached, $0.60 output; gpt-5.6-luna $0.22, $0.022, $1.32
+- With 4 fields and no reasoning the model judged by line count: it missed a skipped step hidden behind a retry line and called a cached path incomplete
+- `step_check` makes the model match every step before it decides; it fixed both for about 50 extra output tokens per trace
+- Prompt caching: 95–99% of input tokens were cached in these repeated runs; new traces share only the instructions and flows, so expect a cost between the two figures
+- One batch of 80 traces reserves about 240K of the 333K tokens-per-minute quota: run at most one batch per minute
 
 ## Azure ML vs the two PoCs
 
@@ -104,7 +112,7 @@ xychart-beta
 
 **PoC 2: Foundry LLM**
 - \+ No training, no GPU, no model to own
-- \+ Explains each verdict: anomaly type, first bad line, one sentence
+- \+ Explains each verdict: flow, step check, anomaly type, first bad line, one sentence
 - \+ Change behaviour by editing the flow description, not by retraining
 - − Pay per token: cost grows with traffic
 - − Only as good as the flow description
@@ -113,13 +121,13 @@ xychart-beta
 
 ## Azure setup: one resource group
 
-- `infra/main.bicep`: Container Apps environment with a serverless A100 profile, registry, managed identity, Log Analytics, Foundry account and project with the `gpt-5.6-luna` deployment
+- `infra/main.bicep`: Container Apps environment with a serverless A100 profile, registry, managed identity, Log Analytics, Foundry account and project with `gpt-6-luna` and `gpt-5.6-luna` deployments
 - `infra/jobs.bicep`: the GPU job (`job-run`)
 - Entra ID everywhere: no keys, no secrets
 - Lessons from this subscription:
   - Sweden Central refused new Container Apps environments (capacity): Italy North worked
   - Policy switches off storage keys and public access: no Azure Files, the model goes to the replica disk (500 GB on A100)
-  - Size the LLM deployment: the rate limit counts the prompt plus `max_completion_tokens` per call (300K tokens per minute here)
+  - Size the LLM deployment: the rate limit counts the prompt plus `max_completion_tokens` per call (333K tokens per minute here, the quota maximum)
 
 ## Redo in the customer's tenant
 

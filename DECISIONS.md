@@ -24,7 +24,8 @@ Short log of choices made while building this repo, and why.
 
 ## Models
 - PoC 1 uses Llama 2 7B, the base model of the LogLLaMA approach. `NousResearch/Llama-2-7b-hf` is an ungated copy; the official `meta-llama/Llama-2-7b-hf` needs `HF_TOKEN`. Llama 2 can no longer be downloaded from the Azure ML `azureml-meta` registry.
-- PoC 2 uses `gpt-5.6-luna` on Foundry (Data Zone Standard, 300K tokens per minute). Azure counts prompt plus `max_completion_tokens` per request against the limit, so the call caps output at 1,000 tokens.
+- PoC 2 uses `gpt-6-luna` with reasoning `none` on Foundry (Data Zone Standard, 333K tokens per minute, the quota maximum). The response schema is built per trace: enums bound the flow, verdict, type and line, and a `step_check` field makes the model match every expected step before it decides. Without it, reasoning `none` judged by line count and made mistakes.
+- Azure counts prompt plus `max_completion_tokens` per request against the rate limit, so the call caps output at 1,000 tokens. One batch of 80 traces reserves about 240K tokens: at most one batch per minute.
 
 ## Azure
 - One resource group in Italy North. Sweden Central refused new Container Apps environments (capacity).
