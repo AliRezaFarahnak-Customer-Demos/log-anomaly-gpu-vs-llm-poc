@@ -31,6 +31,9 @@ infra/env.local
 # personal prep notes, never versioned
 notes/
 
+# customer extracts never go into git
+data/customer/
+
 # derived by "logpoc prepare"
 data/synthetic/*/prepared/
 data/synthetic/*/prepared.tmp-*/

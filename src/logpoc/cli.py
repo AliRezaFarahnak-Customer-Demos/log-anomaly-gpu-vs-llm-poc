@@ -106,6 +106,22 @@ def _cmd_compare(a: argparse.Namespace) -> int:
     return run(a.pricing)
 
 
+def _cmd_save_result(a: argparse.Namespace) -> int:
+    """The GPU job has no storage, so it prints its run files as one RESULT log line."""
+    import json
+
+    from logpoc.common import runs
+
+    line = next(x for x in sys.stdin.read().splitlines() if x.startswith("RESULT "))
+    files = json.loads(line.removeprefix("RESULT "))
+    rdir = runs.run_dir(files["meta.json"]["run_id"])
+    for name, content in files.items():
+        runs.write_json(rdir / name, content)
+    runs.mark_done(rdir)
+    print(f"wrote {rdir}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="logpoc", description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
@@ -165,6 +181,9 @@ def build_parser() -> argparse.ArgumentParser:
     c = sub.add_parser("compare", help="write runs/RUNS.md from every eval metrics.json")
     c.add_argument("--pricing", default="configs/pricing.yaml")
     c.set_defaults(func=_cmd_compare)
+
+    sr = sub.add_parser("save-result", help="store a GPU job RESULT log line (stdin) as a run")
+    sr.set_defaults(func=_cmd_save_result)
     return p
 
 

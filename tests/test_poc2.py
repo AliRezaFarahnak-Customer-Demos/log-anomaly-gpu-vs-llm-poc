@@ -1,6 +1,8 @@
+import io
 import json
 
 from logpoc import compare
+from logpoc.cli import main
 from logpoc.common import runs
 from logpoc.poc2_llm import classify
 
@@ -21,3 +23,12 @@ def test_expected_flow_goes_into_the_system_prompt():
     system, user = classify.build_messages(["a", "b"], "flow doc")
     assert "flow doc" in system["content"]
     assert user["content"] == "0: a\n1: b"
+
+
+def test_save_result_from_job_log_line(ml_root, monkeypatch):
+    files = {"meta.json": {"run_id": "gpu1"}, "eval/metrics.json": {"method": "poc1-gpu"}}
+    monkeypatch.setattr("sys.stdin", io.StringIO("noise\nRESULT " + json.dumps(files) + "\n"))
+    assert main(["save-result"]) == 0
+    assert json.loads((runs.run_dir("gpu1") / "eval" / "metrics.json").read_text()) == {
+        "method": "poc1-gpu"
+    }

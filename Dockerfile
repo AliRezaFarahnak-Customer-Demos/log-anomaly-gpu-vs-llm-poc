@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir ${PIP_INDEX_URL:+--index-url "$PIP_INDEX_URL"} -r
 COPY pyproject.toml README.md ./
 COPY src src
 COPY configs configs
-COPY data/synthetic data/synthetic
+COPY data data
 RUN pip install --no-cache-dir --no-deps .
 
 ENV ML_ROOT=/mnt/ml \

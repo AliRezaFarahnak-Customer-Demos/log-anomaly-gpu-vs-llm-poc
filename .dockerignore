@@ -8,6 +8,10 @@ tests
 infra
 **/__pycache__
 **/*.pyc
-data/synthetic/*/prepared
-data/synthetic/prod_like/logs
-data/synthetic/prod_like/truth
+# the job only needs the split files, not raw daily logs, truth files or derived data
+data/*/prepared
+data/*/*/prepared
+data/*/logs
+data/*/*/logs
+data/*/truth
+data/*/*/truth
