@@ -1,0 +1,7 @@
+trace_id,label,anomaly_type,first_deviation_index
+tbd1970e7d6be,1,retry_storm,3
+tfde6598786a2,1,wrong_order,2
+tc4cdb4b2bb21,1,visible_error,3
+t373d1b5f5920,0,none,
+t5acee86340c9,1,silent_skip,4
+ta556535ab609,1,truncated,3

@@ -1,0 +1,31 @@
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+
+# local ML root: models, caches, run outputs
+.ml/
+mlruns/
+*.safetensors
+*.bin
+*.pt
+*.gguf
+hf-cache/
+
+# secrets and local environment
+.env
+.env.*
+!infra/env.sample
+infra/env.local
+
+# editor and personal tooling
+.vscode/
+.github/copilot-instructions.md
+
+# personal prep notes, never versioned
+notes/

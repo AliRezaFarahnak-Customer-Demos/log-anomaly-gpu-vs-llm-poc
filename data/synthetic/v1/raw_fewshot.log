@@ -1,0 +1,33 @@
+2026-03-05T08:00:00.381Z INFO api-gateway trace=tbd1970e7d6be request received method=POST path=/orders client=113.175.196.55
+2026-03-05T08:00:00.435Z INFO api-gateway trace=tfde6598786a2 request received method=POST path=/orders client=125.41.250.129
+2026-03-05T08:00:00.457Z INFO auth-service trace=tbd1970e7d6be token validated user=u13260
+2026-03-05T08:00:00.542Z INFO order-service trace=tbd1970e7d6be order created order_id=ord-925096 items=3
+2026-03-05T08:00:00.571Z INFO auth-service trace=tfde6598786a2 token validated user=u39097
+2026-03-05T08:00:00.583Z INFO api-gateway trace=tc4cdb4b2bb21 request received method=POST path=/orders client=73.207.246.228
+2026-03-05T08:00:00.614Z INFO order-service trace=tbd1970e7d6be order created order_id=ord-925096 items=3
+2026-03-05T08:00:00.646Z INFO api-gateway trace=t373d1b5f5920 request received method=POST path=/orders client=202.166.48.41
+2026-03-05T08:00:00.661Z INFO payment-service trace=tfde6598786a2 payment authorised order_id=ord-115341 amount=251.68 currency=USD
+2026-03-05T08:00:00.675Z INFO order-service trace=tfde6598786a2 order created order_id=ord-115341 items=7
+2026-03-05T08:00:00.694Z INFO order-service trace=tbd1970e7d6be order created order_id=ord-925096 items=3
+2026-03-05T08:00:00.700Z INFO auth-service trace=t373d1b5f5920 token validated user=u11286
+2026-03-05T08:00:00.712Z INFO auth-service trace=tc4cdb4b2bb21 token validated user=u46390
+2026-03-05T08:00:00.723Z INFO order-service trace=tbd1970e7d6be order created order_id=ord-925096 items=3
+2026-03-05T08:00:00.763Z INFO order-service trace=tc4cdb4b2bb21 order created order_id=ord-918173 items=9
+2026-03-05T08:00:00.804Z INFO order-service trace=tfde6598786a2 order confirmed order_id=ord-115341
+2026-03-05T08:00:00.824Z INFO order-service trace=tbd1970e7d6be order created order_id=ord-925096 items=3
+2026-03-05T08:00:00.830Z INFO api-gateway trace=t5acee86340c9 request received method=POST path=/orders client=103.125.206.134
+2026-03-05T08:00:00.834Z INFO order-service trace=t373d1b5f5920 order created order_id=ord-745686 items=2
+2026-03-05T08:00:00.870Z ERROR payment-service trace=tc4cdb4b2bb21 payment gateway timeout order_id=ord-918173
+2026-03-05T08:00:00.874Z INFO api-gateway trace=ta556535ab609 request received method=POST path=/orders client=187.232.155.194
+2026-03-05T08:00:00.890Z INFO order-service trace=tbd1970e7d6be order created order_id=ord-925096 items=3
+2026-03-05T08:00:00.930Z INFO payment-service trace=t373d1b5f5920 payment authorised order_id=ord-745686 amount=427.49 currency=DKK
+2026-03-05T08:00:00.970Z INFO auth-service trace=t5acee86340c9 token validated user=u78150
+2026-03-05T08:00:00.987Z INFO api-gateway trace=t5acee86340c9 cache hit key=ka4f171
+2026-03-05T08:00:00.998Z INFO auth-service trace=ta556535ab609 token validated user=u64190
+2026-03-05T08:00:01.004Z INFO order-service trace=tc4cdb4b2bb21 order confirmed order_id=ord-918173
+2026-03-05T08:00:01.014Z INFO payment-service trace=tbd1970e7d6be payment authorised order_id=ord-925096 amount=364.54 currency=USD
+2026-03-05T08:00:01.030Z INFO order-service trace=t373d1b5f5920 order confirmed order_id=ord-745686
+2026-03-05T08:00:01.053Z INFO order-service trace=t5acee86340c9 order created order_id=ord-274488 items=3
+2026-03-05T08:00:01.064Z INFO order-service trace=t5acee86340c9 order confirmed order_id=ord-274488
+2026-03-05T08:00:01.108Z INFO order-service trace=ta556535ab609 order created order_id=ord-666090 items=6
+2026-03-05T08:00:01.138Z INFO order-service trace=tbd1970e7d6be order confirmed order_id=ord-925096

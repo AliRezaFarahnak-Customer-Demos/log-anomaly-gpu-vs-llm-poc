@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "logpoc"
+version = "0.1.0"
+description = "Log anomaly detection demo: serverless GPU fine-tuning versus structured LLM calls"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pyyaml==6.0.3",
+    "numpy==2.5.3",
+    "drain3==0.9.1",
+    "matplotlib==3.11.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.16.10",
+]
+train = [
+    "torch==2.14.1",
+    "transformers==5.19.0",
+    "peft==0.21.2",
+    "accelerate==1.15.0",
+    "huggingface-hub==1.33.0",
+]
+llm = [
+    "openai==3.26.0",
+    "azure-identity==1.26.0",
+]
+mlflow = [
+    "mlflow-skinny==3.17.0",
+]
+
+[project.scripts]
+logpoc = "logpoc.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+logpoc = ["poc2_llm/prompts/**/*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "slow: needs model download, runs only when RUN_HF_TESTS=1",
+]

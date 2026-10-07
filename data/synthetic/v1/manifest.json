@@ -1,0 +1,47 @@
+{
+  "generator_version": "1.0",
+  "seed": 20261007,
+  "config_sha256": "9617c2f1230944efd74b2bfeba3f9bbf7769a6792e8497366a2319b1ea052f15",
+  "counts": {
+    "train": {
+      "traces": 2000,
+      "normal": 2000,
+      "anomalous": 0,
+      "lines": 10584
+    },
+    "val": {
+      "traces": 200,
+      "normal": 200,
+      "anomalous": 0,
+      "lines": 1051
+    },
+    "dev": {
+      "traces": 40,
+      "normal": 20,
+      "anomalous": 20,
+      "lines": 217
+    },
+    "fewshot": {
+      "traces": 6,
+      "normal": 1,
+      "anomalous": 5,
+      "lines": 33
+    },
+    "test": {
+      "traces": 300,
+      "normal": 200,
+      "anomalous": 100,
+      "lines": 1620
+    }
+  },
+  "files": {
+    "raw_train.log": "187d6aa9d1edda246d056eb42e96c1d12af5d31fbf5006a4dd4455fc2774467a",
+    "raw_val.log": "2ab0a551ccba7d7911d8c3a6a7f78d64ebeab712aac64ec5ac40d2db47f5b6a7",
+    "raw_dev.log": "58b94c46c634d388842c2a21e585f85fdb8b16dda742edd1ff42819927bbb15c",
+    "labels_dev.csv": "66f4a574d99e9242acfedc12baedc732d4b06a31a1ccf24b031b70e0873bd2e2",
+    "raw_fewshot.log": "a14c6409148cb47490bf368ab35c939b1da11bf31fea2c9abc220a8b492f0720",
+    "labels_fewshot.csv": "b2eee71602c8509e8f11cbf5546803d15d50cbb559fe687fef542d8a8203fd98",
+    "raw_test.log": "d074c49ff9c42f4d31151aaf0f796dcfcb94d48ee94659bdf09ddc179b94d72e",
+    "labels_test.csv": "9996d962370df6210244f0512009b803762559e8f5351f21cd09fa51b172e362"
+  }
+}

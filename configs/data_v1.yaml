@@ -1,0 +1,41 @@
+seed: 20261007
+generator_version: "1.0"
+start_time: "2026-03-02T08:00:00.000Z"
+
+# Mean gap between trace starts per split, in seconds. Small enough that traces overlap.
+mean_trace_gap_s: 0.35
+
+flows:
+  order_share: 0.85
+  refund_share: 0.15
+  cache_hit_prob: 0.30
+  auth_retry_prob: 0.05
+
+anomaly_types:
+  - visible_error
+  - silent_skip
+  - wrong_order
+  - truncated
+  - retry_storm
+
+splits:
+  train:
+    normal: 2000
+    per_type: 0
+    labels: false
+  val:
+    normal: 200
+    per_type: 0
+    labels: false
+  dev:
+    normal: 20
+    per_type: 4
+    labels: true
+  fewshot:
+    normal: 1
+    per_type: 1
+    labels: true
+  test:
+    normal: 200
+    per_type: 20
+    labels: true
