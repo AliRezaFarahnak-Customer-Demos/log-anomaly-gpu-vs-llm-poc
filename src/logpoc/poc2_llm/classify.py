@@ -114,7 +114,11 @@ class FakeClient:
         return SimpleNamespace(choices=[SimpleNamespace(message=message)], usage=usage)
 
 
-def classify_one(client, model: str, lines: list[str], flows: str | None) -> tuple[dict, int, int]:
+def classify_one(
+    client, model: str, lines: list[str], flows: str | None, effort: str | None = None
+) -> tuple[dict, int, int]:
+    # effort None keeps the model's default reasoning level
+    extra = {"reasoning_effort": effort} if effort else {}
     resp = client.chat.completions.create(
         model=model,
         messages=build_messages(lines, flows),
@@ -124,6 +128,7 @@ def classify_one(client, model: str, lines: list[str], flows: str | None) -> tup
             "type": "json_schema",
             "json_schema": {"name": "verdict", "strict": True, "schema": SCHEMA},
         },
+        **extra,
     )
     answer = json.loads(resp.choices[0].message.content)
     return answer, resp.usage.prompt_tokens, resp.usage.completion_tokens
@@ -145,6 +150,7 @@ def run(
     t0 = time.time()
     data_dir = Path(data_dir)
     model = "offline-fake" if dry_run else os.environ.get("LLM_DEPLOYMENT", "gpt-5.6-luna")
+    effort = os.environ.get("LLM_REASONING_EFFORT") or None
     flows = (data_dir / "flows.yaml").read_text() if context == "expected-flow" else None
     seqs = load_sequences(data_dir, split)[:limit]
     labels = load_labels(data_dir, split)
@@ -158,6 +164,7 @@ def run(
         run_id=rid,
         method="poc2-llm",
         model=model,
+        reasoning_effort=effort or "model default",
         context=context,
         git_sha=sha,
         git_dirty=dirty,
@@ -167,7 +174,9 @@ def run(
         start_time=utc_now(),
     )
     with ThreadPoolExecutor(concurrency) as pool:
-        results = list(pool.map(lambda s: classify_one(client, model, s["lines"], flows), seqs))
+        results = list(
+            pool.map(lambda s: classify_one(client, model, s["lines"], flows, effort), seqs)
+        )
 
     records = []
     with (rdir / "answers.jsonl").open("w", encoding="utf-8", newline="\n") as f:
@@ -194,7 +203,7 @@ def run(
         rdir,
         split,
         method="poc2-llm",
-        variant=f"{model} {context}",
+        variant=f"{model} {context} reasoning={effort or 'default'}",
         records=records,
         summary={
             "wall_seconds": wall,

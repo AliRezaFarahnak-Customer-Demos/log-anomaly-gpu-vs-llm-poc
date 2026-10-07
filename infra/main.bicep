@@ -10,8 +10,11 @@ param userObjectId string
 @description('Serverless GPU workload profiles of the Container Apps environment')
 param gpuProfiles array = [{ name: 'gpu-a100', type: 'Consumption-GPU-NC24-A100' }]
 
-param llmModel string = 'gpt-5.6-luna'
-param llmVersion string = '2026-07-09'
+@description('LLM deployments, Data Zone Standard; capacity is in thousands of tokens per minute')
+param llmDeployments array = [
+  { name: 'gpt-5.6-luna', version: '2026-07-09', capacity: 300 }
+  { name: 'gpt-6-luna', version: '2026-09-22', capacity: 300 }
+]
 
 var uniq = uniqueString(resourceGroup().id)
 var acrPullRole = '7f951dda-4ed3-4680-a7ca-43fe172d538d'
@@ -89,15 +92,19 @@ resource project 'Microsoft.CognitiveServices/accounts/projects@2025-06-01' = {
   properties: {}
 }
 
-resource llm 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
-  parent: aif
-  name: llmModel
-  sku: { name: 'DataZoneStandard', capacity: 300 }
-  properties: {
-    model: { format: 'OpenAI', name: llmModel, version: llmVersion }
+// one at a time: parallel deployment writes on one account conflict
+@batchSize(1)
+resource llm 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = [
+  for d in llmDeployments: {
+    parent: aif
+    name: d.name
+    sku: { name: 'DataZoneStandard', capacity: d.capacity }
+    properties: {
+      model: { format: 'OpenAI', name: d.name, version: d.version }
+    }
+    dependsOn: [project]
   }
-  dependsOn: [project]
-}
+]
 
 resource userLlm 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: aif
@@ -112,4 +119,4 @@ resource userLlm 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 output acrName string = acr.name
 output environmentName string = cae.name
 output foundryEndpoint string = 'https://${aif.properties.customSubDomainName}.openai.azure.com/'
-output llmDeployment string = llm.name
+output llmDeployments array = [for (d, i) in llmDeployments: llm[i].name]
