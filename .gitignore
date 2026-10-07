@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+*.tmp
 .venv/
 .pytest_cache/
 .ruff_cache/
@@ -32,3 +33,4 @@ notes/
 
 # derived by "logpoc prepare"
 data/synthetic/v1/prepared/
+data/synthetic/v1/prepared.tmp-*/
