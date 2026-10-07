@@ -1,137 +1,115 @@
 # Log anomaly detection: fine-tuned GPU model vs LLM
 
-- Goal: catch broken business flows in production logs (visible errors and silent breaks) before customers notice
-- Question: is fine-tuning a 7B model on a GPU worth it, or does one LLM call per trace do the job?
-- Data: synthetic 10-day production-like extract (4 flows, 2 incidents, 80 labelled traces); no customer data in this repo
+- Goal: catch broken business flows in production logs before customers notice
+- Question: fine-tune a 7B model on a GPU, or make one LLM call per trace?
+- Data: synthetic 10-day production-like extract (4 flows, 2 incidents, 80 labelled traces); no customer data here
 
 ## How it works
 
 ```mermaid
 flowchart LR
-    logs["10 days of app logs"] --> drain["Drain templates<br/>grouped by correlation id"]
-    drain --> traces["Traces"]
-    traces --> p1["PoC 1: Llama 2 7B + LoRA<br/>serverless A100 job"]
-    traces --> p2["PoC 2: gpt-5.6-luna<br/>+ expected flows"]
-    p1 --> eval["Same 80 labelled traces<br/>precision, recall, F1, cost"]
-    p2 --> eval
+    logs["App logs"] --> drain["Drain templates<br/>per correlation id"]
+    drain --> p1["PoC 1: Llama 2 7B + LoRA<br/>serverless A100 job"]
+    drain --> p2["PoC 2: gpt-6-luna<br/>reasoning none"]
+    p1 --> score["Same 80 labelled traces<br/>F1, false alarms, cost"]
+    p2 --> score
 ```
 
-### PoC 1: fine-tune on a serverless GPU (LogLLaMA approach)
+**PoC 1: learn normal, flag surprises**
 
 ```mermaid
 flowchart LR
-    start["job start"] --> dl["Download Llama 2 7B<br/>Hugging Face"]
-    dl --> train["LoRA fine-tune<br/>normal traces only"]
-    train --> score["Score every line:<br/>how surprising?"]
-    score --> flag["Flag traces above the<br/>99th percentile of normal"]
-    flag --> out["RESULT line<br/>in Log Analytics"]
+    a["Download Llama 2 7B"] --> b["LoRA fine-tune<br/>normal traces only"] --> c["Score every line"] --> d["Flag above the 99th<br/>percentile of normal"]
 ```
 
-- Learns only what normal looks like; never sees a labelled anomaly
-- One Container Apps job on a serverless A100 80 GB; scales to zero, billed per second
-- Every run records git commit, image tag, data hash and base model commit
-
-### PoC 2: one LLM call per trace
+**PoC 2: check each trace against the expected flows**
 
 ```mermaid
 flowchart LR
-    trace["Trace lines"] --> llm["gpt-6-luna on Foundry<br/>reasoning none<br/>prompt + expected flows"]
-    llm --> json["JSON: flow, step check, explanation,<br/>verdict, type, first bad line"]
+    a["Trace + expected flows"] --> b["gpt-6-luna on Foundry<br/>structured output"] --> c["flow, step check, verdict,<br/>type, first bad line"]
 ```
 
-- No training, no GPU: the flow description is the only domain input
-- Structured Outputs: strict JSON schema built per trace by `build_schema` in `src/logpoc/poc2_llm/classify.py`; enums keep flow, verdict, type and line inside valid values
-- The model first matches every expected step to a line (`step_check`), so it needs no reasoning tokens
-- EU Data Zone deployment, Entra ID only
+- Enums keep every answer inside valid values (`build_schema` in `src/logpoc/poc2_llm/classify.py`)
+- `step_check` makes the model match every expected step before it decides, so it needs no reasoning tokens
 
-## Results (synthetic rehearsal)
+## Results
 
 ```mermaid
 xychart-beta
-    title "F1 on the 80 labelled traces"
+    title "F1 on 80 labelled traces"
     x-axis ["Keyword grep", "PoC 1 GPU", "PoC 2 LLM"]
     y-axis "F1" 0 --> 1
     bar [0.38, 0.94, 1.0]
 ```
 
-| | Keyword grep | PoC 1 Llama 2 7B, A100 | PoC 2 gpt-6-luna, reasoning none |
+| | Keyword grep | PoC 1: Llama 2 7B on A100 | PoC 2: gpt-6-luna |
 |---|---|---|---|
-| Precision | 1.00 | 0.88 | 1.00 |
-| Recall | 0.23 | 1.00 | 1.00 |
-| F1 | 0.38 | 0.94 | 1.00 |
+| F1 | 0.38 | 0.94 | 1.00 (5 of 5 runs) |
+| Anomalies caught (of 30) | 7 | 30 | 30 |
 | False alarms (of 50 normal) | 0 | 4 | 0 |
-| Silent breaks caught (of 23) | 0 | 23 | 23 |
-| Time | < 1 s | 13 min job: 8 min training, 2 s scoring | 8 s for 80 traces, 20 parallel calls |
-| Cost, Azure list price | 0 | $0.34 training once, then $0.02 per 1,000 traces | $0.32 per 1,000 traces, $0.08–0.10 with prompt caching |
+| Explains the verdict | no | no | yes: flow, step, line |
+| Time for 80 traces | < 1 s | 2 s scoring, 13 min job with training | 8 s |
+| Cost per 1,000 traces | 0 | $0.02, plus about $0.18 start-up per job and $0.34 per training run | $0.32, or $0.09 with prompt caching |
 
-- Both PoCs caught all 30 anomalous traces, including the 23 silent breaks
-- PoC 1: 4 false alarms; 4 harmless test traces contain a retry line that never occurred in training
-- PoC 2: 5 of 5 runs perfect, with the right anomaly type and first bad line for all 30
-- PoC 2 was tuned on these 80 traces: confirm on the customer's own labelled set
-- Per trace PoC 1 is cheaper once trained, but it needs a GPU job and retraining whenever the logs change
-- Keyword search only sees visible errors: 23 of the 30 anomalous traces never log an ERROR
-- Run records: PoC 1 git `b43f546`, image `b43f546`, Llama 2 commit `8efe6c9`; PoC 2 git `20a4596`; data hash `7f7c7aa4` for both
+- Azure list prices: A100 $2.48 per hour; gpt-6-luna EU Data Zone $0.12 input, $0.012 cached, $0.60 output per 1M tokens
+- Run records: PoC 1 git `b43f546`, Llama 2 commit `8efe6c9`; PoC 2 git `20a4596`; same data hash `7f7c7aa4`
 
-**LLM experiments** (same 80 traces, 20 parallel calls)
+## LLM or GPU?
 
-| Schema | Model, reasoning | Perfect runs | Cost per 1,000 traces, no cache |
-|---|---|---|---|
-| 4 fields | gpt-5.6-luna, default | 1 of 1 | $0.52 |
-| 4 fields | gpt-5.6-luna, none | 0 of 1 | $0.47 |
-| 4 fields | gpt-6-luna, default | 1 of 1 | $0.28 |
-| 4 fields | gpt-6-luna, low | 3 of 3 | $0.27 |
-| 4 fields | gpt-6-luna, none | 2 of 6 | $0.25 |
-| 6 fields: flow, step_check, enums | gpt-6-luna, low | 3 of 3 | $0.34 |
-| **6 fields: flow, step_check, enums** | **gpt-6-luna, none** | **5 of 5** | **$0.32** |
+```mermaid
+xychart-beta
+    title "USD per day (bars: LLM, line: GPU scoring hourly)"
+    x-axis ["1k", "5k", "10k", "15k", "25k", "50k traces/day"]
+    y-axis "USD per day" 0 --> 17
+    bar [0.32, 1.6, 3.2, 4.8, 8.0, 16.0]
+    line [4.3, 4.4, 4.5, 4.6, 4.8, 5.2]
+```
 
-- Prices: Azure Retail Prices API, EU Data Zone, per 1M tokens: gpt-6-luna $0.12 input, $0.012 cached, $0.60 output; gpt-5.6-luna $0.22, $0.022, $1.32
-- With 4 fields and no reasoning the model judged by line count: it missed a skipped step hidden behind a retry line and called a cached path incomplete
-- `step_check` makes the model match every step before it decides; it fixed both for about 50 extra output tokens per trace
-- Prompt caching: 95–99% of input tokens were cached in these repeated runs; new traces share only the instructions and flows, so expect a cost between the two figures
-- One batch of 80 traces reserves about 240K of the 333K tokens-per-minute quota: run at most one batch per minute
+- Quality: the LLM wins here: no false alarms, every verdict explained, no training
+- Cost: the LLM is cheaper below about 14,000 traces a day (60,000 with prompt caching); above that the GPU is cheaper
+- Speed: the LLM answers each trace in seconds; a GPU job needs 4 minutes to start, or about $59 a day to stay on
+- Operations: the GPU model must be retrained and re-thresholded when the logs change; the LLM needs an updated flow description
+
+## What this proves, and what it does not
+
+- Proves: both pipelines run end to end on Azure, versioned and repeatable
+- Proves: one LLM call per trace can match a fine-tuned 7B model on flow breaks, with no training
+- Does not prove: results on real logs; this data is synthetic and clean
+- The LLM prompt was tuned on these 80 traces and the GPU model ran once, untuned: rerun both on the customer's labelled set
+- 80 traces is small: one mistake moves F1 by about 0.02
 
 ## Azure ML vs the two PoCs
 
 **Azure ML (GPU compute instance today)**
-- \+ Full MLOps: experiment tracking, model registry, pipelines, managed endpoints
-- \+ Compute clusters can scale to zero
-- − Compute instances are VMs: they bill while on and their disks fill up (images, caches)
-- − GPUs need VM-family quota: A100 and H100 quota is 0 in this subscription
-- − The workspace brings storage, key vault and registry that tenant policies must allow
-- − Most effort goes into the platform, not the model
+- \+ Full MLOps: tracking, registry, pipelines, endpoints
+- − GPUs need VM quota: A100 quota is 0 in this subscription
+- − Compute instances bill while on and fill their disks
+- − More platform to run than model to build
 
-**PoC 1: Container Apps serverless GPU job**
-- \+ One image is the whole pipeline: download, train, evaluate
-- \+ A100 80 GB billed per second, nothing to pay when idle, nothing to patch
-- \+ Own GPU quota: ran here although A100 VM quota is 0
-- \+ Versioned runs without extra services
-- − No experiment UI or model registry (add MLflow if needed)
-- − One GPU per replica, no multi-node training
-- − Model downloads on every run (an Azure Files mount needs storage keys, blocked by policy here)
-- − Still a model to retrain, threshold and own
+**PoC 1: Container Apps serverless GPU**
+- \+ One image runs download, train and evaluate; per-second A100, nothing to pay when idle
+- \+ Own GPU quota: worked where A100 VM quota is 0
+- − No experiment UI or registry; one GPU per replica
+- − A model to retrain and threshold whenever the logs change
 
 **PoC 2: Foundry LLM**
-- \+ No training, no GPU, no model to own
-- \+ Explains each verdict: flow, step check, anomaly type, first bad line, one sentence
-- \+ Change behaviour by editing the flow description, not by retraining
-- − Pay per token: cost grows with traffic
+- \+ No training, no GPU, every verdict explained
+- \+ Change behaviour by editing the flow description
+- − Pay per token; size tokens-per-minute capacity for the traffic
 - − Only as good as the flow description
-- − Needs tokens-per-minute capacity sized for the traffic
-- − Trace content goes to the model endpoint (EU Data Zone; values are masked)
 
-## Azure setup: one resource group
+## Azure setup
 
-- `infra/main.bicep`: Container Apps environment with a serverless A100 profile, registry, managed identity, Log Analytics, Foundry account and project with `gpt-6-luna` and `gpt-5.6-luna` deployments
-- `infra/jobs.bicep`: the GPU job (`job-run`)
-- Entra ID everywhere: no keys, no secrets
-- Lessons from this subscription:
-  - Sweden Central refused new Container Apps environments (capacity): Italy North worked
-  - Policy switches off storage keys and public access: no Azure Files, the model goes to the replica disk (500 GB on A100)
-  - Size the LLM deployment: the rate limit counts the prompt plus `max_completion_tokens` per call (333K tokens per minute here, the quota maximum)
+- One resource group: Container Apps environment with a serverless A100, registry, managed identity, Log Analytics, Foundry with `gpt-6-luna`; Entra ID only
+- `infra/main.bicep` and `infra/jobs.bicep`
+- Lessons:
+  - Sweden Central had no Container Apps capacity; Italy North worked
+  - Policy blocks storage keys: the model downloads to the replica disk
+  - 333K tokens per minute allows about one batch of 80 traces per minute
 
 ## Redo in the customer's tenant
 
-- Prerequisites: Container Apps serverless A100 and `gpt-5.6-luna` Data Zone Standard quota in one region; Azure CLI; Python 3.12 with `uv`
+- Prerequisites: Container Apps serverless A100 and `gpt-6-luna` Data Zone Standard quota in one region; Azure CLI; Python 3.12 with `uv`
 - Customer data goes in `data/customer` (git-ignored), same shape as `data/synthetic/prod_like`:
   - `logs/*.log`, one event per line: `<ts> <LEVEL> <service> host=<host> corrId=<id> <message>`
   - `traces_labelled.jsonl`, `incidents.csv`, `flows.yaml`
@@ -156,9 +134,9 @@ az containerapp job start -n job-run -g $RG
 WS=$(az monitor log-analytics workspace show -g $RG -n log-logpoc --query customerId -o tsv)
 az monitor log-analytics query -w $WS --analytics-query "ContainerAppConsoleLogs_CL | where Log_s startswith 'RESULT ' | top 1 by TimeGenerated | project Log_s" --query "[0].Log_s" -o tsv | python -m logpoc save-result
 
-# PoC 2 and the comparison table (.ml/runs/RUNS.md)
+# PoC 2 (gpt-6-luna, reasoning none by default) and the comparison table (.ml/runs/RUNS.md)
 export AZURE_OPENAI_ENDPOINT=$(az deployment group show -g $RG -n main --query properties.outputs.foundryEndpoint.value -o tsv)
-python -m logpoc poc2-llm --data data/customer --split test --context expected-flow --run-id llm-$TAG
+python -m logpoc poc2-llm --data data/customer --split test --context expected-flow --concurrency 20 --run-id llm-$TAG
 python -m logpoc baseline-grep --data data/customer --split test --run-id grep-$TAG
 python -m logpoc compare --pricing configs/pricing_azure_list.yaml
 ```
